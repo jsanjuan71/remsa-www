@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>REMSA — Maquinaria Pesada | Servicio y Refacciones</title>
+  <meta name="description" content="Especialistas en mantenimiento, reparación hidráulica, diagnóstico electrónico y refacciones para maquinaria pesada de construcción y minería. Veracruz e Hidalgo, México." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yellow:  #F5C000;
+      --yellow-dark: #c99b00;
+      --red:     #CC0000;
+      --red-dark: #a30000;
+      --bg-deep: #0a0a0a;
+      --bg-mid:  #111111;
+      --bg-card: #181818;
+      --bg-card2:#1e1e1e;
+      --text:    #f0f0f0;
+      --text-muted: #888;
+      --border:  #2a2a2a;
+      --font-heading: 'Bebas Neue', sans-serif;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       UTILITIES
+    ============================================================ */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      letter-spacing: 0.03em;
+      line-height: 1.05;
+      color: #fff;
+    }
+
+    .section-title span { color: var(--yellow); }
+
+    /* fade-in animation */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* delay helpers */
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,192,0,0.15);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      gap: 1rem;
+    }
+
+    /* Logo */
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo img {
+      height: 32px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-logo-mark {
+      width: 40px;
+      height: 40px;
+      background: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      clip-path: polygon(8% 0%, 92% 0%, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0% 92%, 0% 8%);
+    }
+
+    .nav-logo-mark span {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      color: #0a0a0a;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .nav-logo-text strong {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      letter-spacing: 0.1em;
+      color: #fff;
+    }
+
+    .nav-logo-text small {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Nav links */
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--yellow);
+      background: rgba(245,192,0,0.08);
+    }
+
+    .nav-cta {
+      background: var(--yellow) !important;
+      color: #0a0a0a !important;
+      padding: 0.55rem 1.1rem !important;
+      border-radius: 4px;
+      font-weight: 700 !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--yellow-dark) !important;
+    }
+
+    /* Mobile hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0.5rem;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--yellow);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,10,0.98);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem 1.5rem;
+      z-index: 999;
+    }
+
+    .mobile-menu.open { display: block; }
+
+    .mobile-menu a {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--yellow); }
+
+    .mobile-menu a.cta-link {
+      display: inline-block;
+      margin-top: 1rem;
+      background: var(--yellow);
+      color: #0a0a0a;
+      padding: 0.65rem 1.5rem;
+      border-radius: 4px;
+      border-bottom: none;
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 68px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 65% 50%, rgba(204,0,0,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 80% at 10% 80%, rgba(245,192,0,0.10) 0%, transparent 55%),
+        linear-gradient(160deg, rgba(10,10,10,0.88) 0%, rgba(17,17,17,0.75) 40%, rgba(13,13,13,0.82) 70%, rgba(10,10,10,0.90) 100%),
+        url('https://images.unsplash.com/photo-1746349526405-a280f827bc6b?fm=jpg&q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+      z-index: 0;
+    }
+
+    /* Decorative grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,192,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,192,0,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 1;
+    }
+
+    /* Side accent bar */
+    .hero-accent {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, transparent, var(--yellow) 30%, var(--red) 70%, transparent);
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      padding: 4rem 0 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-left { display: flex; flex-direction: column; }
+    .hero-right { display: flex; flex-direction: column; justify-content: center; gap: 2rem; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--yellow);
+    }
+
+    .hero-eyebrow span {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--yellow);
+    }
+
+    .hero-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(2.4rem, 7.2vw, 5.6rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      max-width: 900px;
+    }
+
+    .hero-headline .accent-red { color: var(--red); }
+    .hero-headline .accent-yellow { color: var(--yellow); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: #bbb;
+      max-width: 580px;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--yellow);
+      color: #0a0a0a;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover {
+      background: var(--yellow-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary svg { width: 16px; height: 16px; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 1.75rem;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    /* Hero stats strip */
+    .hero-stats {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+    }
+
+    .hero-stat {
+      padding: 2rem 1.5rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .hero-stat:last-child { border-right: none; }
+
+    .hero-stat-number {
+      font-family: var(--font-heading);
+      font-size: 2.8rem;
+      letter-spacing: 0.02em;
+      color: var(--yellow);
+      line-height: 1;
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 0.35rem;
+      display: block;
+    }
+
+    /* ============================================================
+       SERVICIOS
+    ============================================================ */
+    #servicios {
+      background: var(--bg-mid);
+      padding: 6rem 0;
+    }
+
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 3.5rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 1.5px solid var(--border);
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--yellow);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+
+    .service-card:hover { background: var(--bg-card2); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(245,192,0,0.1);
+      border: 1px solid rgba(245,192,0,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      border-radius: 6px;
+    }
+
+    .service-icon svg {
+      width: 26px;
+      height: 26px;
+      color: var(--yellow);
+      stroke: var(--yellow);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .service-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.65rem;
+      letter-spacing: 0.04em;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      background: rgba(245,192,0,0.08);
+      border: 1px solid rgba(245,192,0,0.2);
+      padding: 0.2rem 0.55rem;
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       POR QUÉ REMSA
+    ============================================================ */
+    #porque {
+      background: var(--bg-deep);
+      padding: 6rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #porque::before {
+      content: 'REMSA';
+      position: absolute;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-heading);
+      font-size: 18rem;
+      color: rgba(245,192,0,0.025);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .porque-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .porque-left .section-title {
+      margin-bottom: 1.25rem;
+    }
+
+    .porque-left p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .porque-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+      background: var(--border);
+      border: 1.5px solid var(--border);
+    }
+
+    .diff-card {
+      background: var(--bg-card);
+      padding: 2rem 2.25rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      transition: background 0.25s;
+    }
+
+    .diff-card:hover { background: var(--bg-card2); }
+
+    .diff-number {
+      font-family: var(--font-heading);
+      font-size: 3rem;
+      color: rgba(245,192,0,0.15);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 50px;
+    }
+
+    .diff-body h4 {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      letter-spacing: 0.04em;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+
+    .diff-body p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .diff-body .highlight {
+      color: var(--yellow);
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       MARCAS
+    ============================================================ */
+    #marcas {
+      background: var(--bg-mid);
+      padding: 5rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .marcas-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .marcas-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .marca-item {
+      background: var(--bg-card);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      min-height: 120px;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .marca-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), var(--yellow));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .marca-item:hover { background: #1a1a1a; }
+    .marca-item:hover::after { transform: scaleX(1); }
+
+    .marca-logo {
+      height: 52px;
+      width: 100%;
+      max-width: 110px;
+      object-fit: contain;
+      filter: grayscale(100%) brightness(1.8) opacity(0.45);
+      transition: filter 0.3s ease;
+    }
+
+    .marca-item:hover .marca-logo {
+      filter: grayscale(0%) brightness(1) opacity(1);
+    }
+
+    .marca-logo-placeholder {
+      display: none;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      color: #444;
+      text-align: center;
+      transition: color 0.3s;
+    }
+
+    .marca-item:hover .marca-logo-placeholder { color: var(--yellow); }
+
+    .marca-img-error .marca-logo { display: none; }
+    .marca-img-error .marca-logo-placeholder { display: block; }
+
+    .marca-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #333;
+      text-align: center;
+      transition: color 0.3s;
+    }
+
+    .marca-item:hover .marca-label { color: #666; }
+
+    /* ============================================================
+       CONTACTO
+    ============================================================ */
+    #contacto {
+      background: var(--bg-deep);
+      padding: 6rem 0;
+    }
+
+    .contacto-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contacto-info .section-title {
+      margin-bottom: 1rem;
+    }
+
+    .contacto-info > p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(245,192,0,0.08);
+      border: 1px solid rgba(245,192,0,0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--yellow);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .contact-detail-body strong {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-detail-body span, .contact-detail-body a {
+      font-size: 0.95rem;
+      color: var(--text);
+      text-decoration: none;
+      display: block;
+    }
+
+    .contact-detail-body a:hover { color: var(--yellow); }
+
+    /* Form */
+    .contact-form-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+    }
+
+    .form-title {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      letter-spacing: 0.04em;
+      color: #fff;
+      margin-bottom: 1.75rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--bg-mid);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--yellow);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #444;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .form-submit {
+      margin-top: 0.5rem;
+    }
+
+    .form-submit .btn-primary {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .form-note {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: #000;
+      border-top: 1px solid var(--border);
+      padding: 3rem 0 2rem;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand-name {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .footer-tagline {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-rfc {
+      font-size: 0.7rem;
+      color: #444;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .footer-col h5 {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 1.1rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-col ul li a {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: var(--yellow); }
+
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .social-link {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .social-link:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom p {
+      font-size: 0.75rem;
+      color: #888;
+    }
+
+    .footer-bottom a {
+      color: #444;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-bottom a:hover { color: var(--yellow); }
+
+    /* accent stripe */
+    .footer-stripe {
+      height: 3px;
+      background: linear-gradient(90deg, var(--red) 0%, var(--yellow) 50%, var(--red) 100%);
+      margin-bottom: 2rem;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero-content { grid-template-columns: 1fr; gap: 2rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .porque-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .marcas-grid { grid-template-columns: repeat(3, 1fr); }
+      .contacto-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+
+      .hero-stats { grid-template-columns: 1fr; }
+      .hero-stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-stat:last-child { border-bottom: none; }
+
+      #porque::before { font-size: 8rem; opacity: 0.02; }
+    }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .marcas-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+
+      .service-card { padding: 1.75rem; }
+      .contact-form-wrap { padding: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#hero" class="nav-logo">
+          <img src="docs/logo.jpeg" alt="REMSA - Maquinaria Servicio y Refacciones">
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#porque">¿Por qué REMSA?</a></li>
+          <li><a href="#marcas">Marcas</a></li>
+          <li><a href="#contacto" class="nav-cta">Solicitar servicio</a></li>
+        </ul>
+
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#servicios" class="mobile-link">Servicios</a>
+    <a href="#porque" class="mobile-link">¿Por qué REMSA?</a>
+    <a href="#marcas" class="mobile-link">Marcas</a>
+    <a href="#contacto" class="mobile-link">Contacto</a>
+    <a href="#contacto" class="cta-link">Solicitar servicio →</a>
+  </div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-accent"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="hero-eyebrow fade-up">
+            <span>Diagnóstico preciso · Refacciones certificadas · Servicio garantizado</span>
+          </div>
+          <h1 class="hero-headline fade-up delay-1">
+            Tu maquinaria<br />
+            <span class="accent-red">no</span> para.<br />
+            Nosotros<br />
+            <span class="accent-yellow">tampoco.</span>
+          </h1>
+        </div>
+
+        <div class="hero-right">
+          <p class="hero-sub fade-up delay-2">
+            Especialistas en mantenimiento, reparación hidráulica y refacciones certificadas para maquinaria pesada de construcción y minería. Personal capacitado internacionalmente, tecnología de diagnóstico de nivel global.
+          </p>
+          <div class="hero-actions fade-up delay-3">
+            <a href="#contacto" class="btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.58 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.64a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Solicitar servicio
+            </a>
+            <a href="#servicios" class="btn-secondary">Ver servicios →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat fade-up">
+          <span class="hero-stat-number">3</span>
+          <span class="hero-stat-label">Países de certificación técnica</span>
+        </div>
+        <div class="hero-stat fade-up delay-1">
+          <span class="hero-stat-number">10+</span>
+          <span class="hero-stat-label">Marcas de maquinaria atendidas</span>
+        </div>
+        <div class="hero-stat fade-up delay-2">
+          <span class="hero-stat-number">24H</span>
+          <span class="hero-stat-label">Diagnóstico de respuesta rápida</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICIOS
+  ============================================================ -->
+  <section id="servicios">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">Nuestros servicios</span>
+        <h2 class="section-title">Lo que <span>hacemos</span></h2>
+      </div>
+
+      <div class="services-grid">
+
+        <!-- Mantenimiento -->
+        <div class="service-card fade-up">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3>Mantenimiento Integral</h3>
+          <p>Programas de mantenimiento diseñados para maximizar la vida útil de su maquinaria y minimizar tiempos de paro no planeados en obra o mina.</p>
+          <div class="service-tags">
+            <span class="tag">Predictivo</span>
+            <span class="tag">Preventivo</span>
+            <span class="tag">Correctivo</span>
+          </div>
+        </div>
+
+        <!-- Hidráulica -->
+        <div class="service-card fade-up delay-1">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          </div>
+          <h3>Reparación Hidráulica</h3>
+          <p>Diagnóstico y reparación especializada de sistemas hidráulicos: cilindros, bombas, motores, válvulas y mangueras de alta presión.</p>
+          <div class="service-tags">
+            <span class="tag">Cilindros</span>
+            <span class="tag">Bombas</span>
+            <span class="tag">Válvulas</span>
+            <span class="tag">Alta presión</span>
+          </div>
+        </div>
+
+        <!-- Refacciones -->
+        <div class="service-card fade-up delay-2">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          </div>
+          <h3>Refacciones Originales</h3>
+          <p>Suministro de refacciones certificadas con origen garantizado en EE.UU., Japón y Alemania. Compatibilidad exacta, calidad OEM.</p>
+          <div class="service-tags">
+            <span class="tag">EE.UU.</span>
+            <span class="tag">Japón</span>
+            <span class="tag">Alemania</span>
+            <span class="tag">OEM</span>
+          </div>
+        </div>
+
+        <!-- Diagnóstico -->
+        <div class="service-card fade-up delay-3">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Diagnóstico Electrónico</h3>
+          <p>Lectura de códigos de falla, análisis de parámetros y programación de módulos ECM con software oficial CAT SIS para diagnóstico preciso y documentado.</p>
+          <div class="service-tags">
+            <span class="tag">CAT SIS</span>
+            <span class="tag">ECM</span>
+            <span class="tag">Códigos de falla</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       POR QUÉ REMSA
+  ============================================================ -->
+  <section id="porque">
+    <div class="container">
+      <div class="porque-layout">
+
+        <div class="porque-left fade-up">
+          <span class="section-label">Nuestra ventaja</span>
+          <h2 class="section-title">Por qué elegir <span>REMSA</span></h2>
+          <p>No somos un taller convencional. Somos especialistas con formación internacional, herramientas de diagnóstico de primer nivel y cadena de suministro directa con proveedores certificados.</p>
+          <a href="#contacto" class="btn-primary">
+            Hablemos de tu equipo →
+          </a>
+        </div>
+
+        <div class="porque-right fade-up delay-2">
+
+          <div class="diff-card">
+            <span class="diff-number">01</span>
+            <div class="diff-body">
+              <h4>Capacitación en Canadá</h4>
+              <p>Personal técnico certificado por <span class="highlight">FAMIC Technologies</span> — referente mundial en software de diagnóstico de maquinaria pesada. Formación que pocos talleres en México pueden igualar.</p>
+            </div>
+          </div>
+
+          <div class="diff-card">
+            <span class="diff-number">02</span>
+            <div class="diff-body">
+              <h4>Software Oficial CAT SIS</h4>
+              <p>Utilizamos <span class="highlight">SIS (Service Information System)</span> de Caterpillar — el mismo sistema que usan los distribuidores autorizados — para diagnóstico y reparación documentada con precisión de fábrica.</p>
+            </div>
+          </div>
+
+          <div class="diff-card">
+            <span class="diff-number">03</span>
+            <div class="diff-body">
+              <h4>Refacciones Certificadas de Tres Continentes</h4>
+              <p>Red de proveedores certificados en <span class="highlight">EE.UU., Japón y Alemania</span>. Piezas con trazabilidad de origen, compatibilidad garantizada y especificaciones OEM.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MARCAS
+  ============================================================ -->
+  <section id="marcas">
+    <div class="container">
+      <div class="marcas-header fade-up">
+        <span class="section-label">Equipo que atendemos</span>
+        <h2 class="section-title">Marcas que <span>dominamos</span></h2>
+      </div>
+
+      <div class="marcas-grid">
+        <div class="marca-item fade-up">
+          <img class="marca-logo" src="assets/img/icons/caterpillar.jpg" alt="Caterpillar" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">Caterpillar</span>
+          <span class="marca-label">Caterpillar</span>
+        </div>
+        <div class="marca-item fade-up delay-1">
+          <img class="marca-logo" src="assets/img/icons/komatsu.png" alt="Komatsu" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">Komatsu</span>
+          <span class="marca-label">Komatsu</span>
+        </div>
+        <div class="marca-item fade-up delay-2">
+          <img class="marca-logo" src="assets/img/icons/case.png" alt="Case" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">Case</span>
+          <span class="marca-label">Case</span>
+        </div>
+        <div class="marca-item fade-up delay-3">
+          <img class="marca-logo" src="assets/img/icons/terex.png" alt="Terex" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">Terex</span>
+          <span class="marca-label">Terex</span>
+        </div>
+        <div class="marca-item fade-up delay-4">
+          <img class="marca-logo" src="assets/img/icons/sandvik.png" alt="Sandvik" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">Sandvik</span>
+          <span class="marca-label">Sandvik</span>
+        </div>
+        <div class="marca-item fade-up">
+          <img class="marca-logo" src="assets/img/icons/jcb.png" alt="JCB" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">JCB</span>
+          <span class="marca-label">JCB</span>
+        </div>
+        <div class="marca-item fade-up delay-1">
+          <img class="marca-logo" src="assets/img/icons/liebherr.png" alt="Liebherr" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">Liebherr</span>
+          <span class="marca-label">Liebherr</span>
+        </div>
+        <div class="marca-item fade-up delay-2">
+          <img class="marca-logo" src="assets/img/icons/atlas_copco.png" alt="Atlas Copco" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">Atlas Copco</span>
+          <span class="marca-label">Atlas Copco</span>
+        </div>
+        <div class="marca-item fade-up delay-3">
+          <img class="marca-logo" src="assets/img/icons/dynapac.png" alt="Dynapac" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">Dynapac</span>
+          <span class="marca-label">Dynapac</span>
+        </div>
+        <div class="marca-item fade-up delay-4">
+          <img class="marca-logo" src="assets/img/icons/ingersoll_rand.png" alt="Ingersoll-Rand" onerror="this.closest('.marca-item').classList.add('marca-img-error')">
+          <span class="marca-logo-placeholder">Ingersoll-Rand</span>
+          <span class="marca-label">Ingersoll-Rand</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACTO
+  ============================================================ -->
+  <section id="contacto">
+    <div class="container">
+      <div class="contacto-layout">
+
+        <!-- Info -->
+        <div class="contacto-info fade-up">
+          <span class="section-label">Contáctanos</span>
+          <h2 class="section-title">Hablemos de <span>tu equipo</span></h2>
+          <p>¿Tu maquinaria tiene una falla? ¿Necesitas un plan de mantenimiento? ¿Buscas refacciones? Contáctanos y un especialista te responde en menos de 24 horas.</p>
+
+          <div class="contact-detail">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.58 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.64a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="contact-detail-body">
+              <strong>Teléfonos</strong>
+              <a href="tel:7718428884">771 842 8884</a>
+              <a href="tel:7712388481">771 238 8481</a>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="contact-detail-body">
+              <strong>Email</strong>
+              <a href="mailto:gpo_remsa@hotmail.com">gpo_remsa@hotmail.com</a>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="contact-detail-body">
+              <strong>Horario de atención</strong>
+              <span>Lun – Vie: 9:00 – 17:30 hrs</span>
+              <span>Sábado: 9:00 – 14:00 hrs</span>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="contact-detail-body">
+              <strong>Zona de cobertura</strong>
+              <span>Veracruz e Hidalgo, México</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="contact-form-wrap fade-up delay-2">
+          <p class="form-title">Solicitud de servicio</p>
+
+          <form action="mailto:gpo_remsa@hotmail.com" method="post" enctype="text/plain">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nombre">Nombre completo *</label>
+                <input type="text" id="nombre" name="Nombre" placeholder="Juan Pérez" required />
+              </div>
+              <div class="form-group">
+                <label for="empresa">Empresa</label>
+                <input type="text" id="empresa" name="Empresa" placeholder="Constructora XYZ" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="telefono">Teléfono *</label>
+                <input type="tel" id="telefono" name="Teléfono" placeholder="+52 771 000 0000" required />
+              </div>
+              <div class="form-group">
+                <label for="equipo">Tipo de equipo *</label>
+                <select id="equipo" name="Equipo" required>
+                  <option value="" disabled selected>Selecciona una opción</option>
+                  <option>Excavadora</option>
+                  <option>Bulldozer / Topadora</option>
+                  <option>Grúa / Pluma</option>
+                  <option>Compactadora</option>
+                  <option>Cargador frontal</option>
+                  <option>Perforadora</option>
+                  <option>Retroexcavadora</option>
+                  <option>Camión de acarreo</option>
+                  <option>Generador industrial</option>
+                  <option>Compresor</option>
+                  <option>Otro</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="mensaje">Describe la situación de tu equipo *</label>
+              <textarea id="mensaje" name="Mensaje" placeholder="Marca, modelo, año, tipo de falla o servicio requerido..." required></textarea>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Enviar solicitud
+              </button>
+            </div>
+            <p class="form-note">Respondemos en menos de 24 horas hábiles.</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="footer-stripe"></div>
+    <div class="container">
+      <div class="footer-inner">
+
+        <div>
+          <span class="footer-brand-name">REMSA</span>
+          <p class="footer-tagline">
+            Especialistas en maquinaria pesada para construcción y minería. Servicio técnico con estándares internacionales, desde el corazón de México.
+          </p>
+          <p class="footer-rfc">RFC: TMO231228H92</p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Servicios</h5>
+          <ul>
+            <li><a href="#servicios">Mantenimiento Integral</a></li>
+            <li><a href="#servicios">Reparación Hidráulica</a></li>
+            <li><a href="#servicios">Refacciones Originales</a></li>
+            <li><a href="#servicios">Diagnóstico Electrónico</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Contacto</h5>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;list-style:none;padding:0;margin:0;">
+            <li style="display:flex;align-items:center;gap:0.6rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18C0 .61.59.01 1.18.01h3a2 2 0 012 1.72c.12.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L5.91 8.09a16 16 0 006 6l1.45-1.45a2 2 0 012.11-.45c.91.35 1.85.6 2.81.72A2 2 0 0122 14.92z"/></svg>
+              <a href="tel:7718428884">771 842 8884</a>
+            </li>
+            <li style="display:flex;align-items:center;gap:0.6rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18C0 .61.59.01 1.18.01h3a2 2 0 012 1.72c.12.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L5.91 8.09a16 16 0 006 6l1.45-1.45a2 2 0 012.11-.45c.91.35 1.85.6 2.81.72A2 2 0 0122 14.92z"/></svg>
+              <a href="tel:7712388481">771 238 8481</a>
+            </li>
+            <li style="display:flex;align-items:center;gap:0.6rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <a href="mailto:gpo_remsa@hotmail.com">gpo_remsa@hotmail.com</a>
+            </li>
+            <li style="display:flex;align-items:center;gap:0.6rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span style="color:#666;font-size:0.82rem;">L–V 9:00–17:30 · Sáb 9:00–14:00</span>
+            </li>
+          </ul>
+          <div class="social-links" style="margin-top:1.25rem;">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="https://wa.me/527718428884" class="social-link" aria-label="WhatsApp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L.054 23.25a.75.75 0 00.916.916l5.392-1.479A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.95 9.95 0 01-5.187-1.448l-.37-.22-3.838 1.051 1.052-3.838-.22-.37A9.95 9.95 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 REMSA — Todos los derechos reservados.</p>
+        <p>Veracruz · Hidalgo · México &nbsp;|&nbsp; RFC: TMO231228H92</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JS — mobile menu + scroll animations
+  ============================================================ -->
+  <script>
+    // Mobile hamburger
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu   = document.getElementById('mobileMenu');
+
+    hamburgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.mobile-link, .cta-link').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+
+    // Intersection Observer for fade-up animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+  <!-- Back to top -->
+  <button id="btt" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+  <style>
+    #btt {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      background: var(--yellow);
+      color: #0a0a0a;
+      border: none;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s, background 0.2s;
+      z-index: 999;
+      pointer-events: none;
+    }
+    #btt.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #btt:hover { background: var(--red); color: #fff; }
+  </style>
+  <script>
+    const btt = document.getElementById('btt');
+    window.addEventListener('scroll', () => {
+      btt.classList.toggle('visible', window.scrollY > 400);
+    });
+  </script>
+
+</body>
+</html>

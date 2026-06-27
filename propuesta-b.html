@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>REMSA — Maquinaria, Servicio y Refacciones</title>
+  <meta name="description" content="Mantenimiento de maquinaria pesada con precisión de ingeniería. Diagnóstico, sistemas hidráulicos y refacciones certificadas para construcción y minería." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:      #1A3A5C;
+      --blue-mid:  #224A72;
+      --blue-light:#2E5F8A;
+      --steel:     #4A5568;
+      --steel-light:#718096;
+      --red:       #CC0000;
+      --yellow:    #F5C000;
+      --white:     #FFFFFF;
+      --gray-bg:   #F4F6F9;
+      --gray-border:#E2E8F0;
+      --gray-text: #2D3748;
+      --font-head: 'Montserrat', sans-serif;
+      --font-body: 'Open Sans', sans-serif;
+      --radius:    6px;
+      --shadow:    0 2px 16px rgba(26,58,92,0.10);
+      --shadow-lg: 0 8px 32px rgba(26,58,92,0.14);
+      --transition:0.25s ease;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--gray-text);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    .container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: var(--white);
+      box-shadow: 0 1px 8px rgba(26,58,92,0.12);
+      height: 64px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo img {
+      height: 32px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-logo span.accent {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      margin-left: 2px;
+      position: relative;
+      top: -6px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--steel);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta {
+      background: var(--red);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: var(--radius);
+      transition: background var(--transition) !important;
+    }
+    .nav-cta:hover { background: #a80000 !important; }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--blue);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      box-shadow: var(--shadow-lg);
+      z-index: 999;
+      padding: 24px;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+    .mobile-menu a {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--steel);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .mobile-menu a:hover { color: var(--blue); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      padding-top: 64px;
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(26,58,92,0.88) 0%, rgba(26,58,92,0.75) 50%, rgba(10,20,40,0.85) 100%),
+        url('https://images.unsplash.com/photo-1746349526405-a280f827bc6b?fm=jpg&q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Geometric technical pattern — CSS only */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    /* Hexagon accent shapes */
+    #hero::after {
+      content: '';
+      position: absolute;
+      right: -120px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse at center, rgba(245,192,0,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-geo {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Decorative hex rings via clip-path */
+    .hex-ring {
+      position: absolute;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+    }
+    .hex-ring:nth-child(1) {
+      width: 320px; height: 320px;
+      top: -80px; right: 10%;
+      transform: rotate(15deg);
+    }
+    .hex-ring:nth-child(2) {
+      width: 220px; height: 220px;
+      top: 30px; right: 14%;
+      transform: rotate(30deg);
+      border-color: rgba(245,192,0,0.10);
+    }
+    .hex-ring:nth-child(3) {
+      width: 180px; height: 180px;
+      bottom: 60px; right: 5%;
+      transform: rotate(-10deg);
+    }
+    .hex-ring:nth-child(4) {
+      width: 90px; height: 90px;
+      bottom: 120px; left: 8%;
+      transform: rotate(20deg);
+      border-color: rgba(204,0,0,0.15);
+    }
+
+    /* Technical corner accent */
+    .hero-corner {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 0 140px 140px;
+      border-color: transparent transparent rgba(245,192,0,0.07) transparent;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: var(--yellow);
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--yellow);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.80);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius);
+      transition: background var(--transition), transform var(--transition);
+      border: 2px solid var(--red);
+    }
+    .btn-primary:hover { background: #a80000; border-color: #a80000; transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--white);
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius);
+      border: 2px solid rgba(255,255,255,0.45);
+      transition: border-color var(--transition), background var(--transition), transform var(--transition);
+    }
+    .btn-outline:hover {
+      border-color: var(--white);
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-1px);
+    }
+
+    .hero-badges {
+      margin-top: 48px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .hero-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.82rem;
+      font-family: var(--font-head);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .hero-badge svg { opacity: 0.8; }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.7rem;
+      font-family: var(--font-head);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ============================================================
+       STATS / TRUST BAR
+    ============================================================ */
+    #stats {
+      background: var(--blue);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stats-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .stat-item {
+      flex: 1 1 160px;
+      text-align: center;
+      padding: 32px 24px;
+      border-right: 1px solid rgba(255,255,255,0.10);
+      position: relative;
+    }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--yellow);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.70);
+      font-weight: 600;
+      font-family: var(--font-head);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+    }
+
+    /* ============================================================
+       SECTION UTILITIES
+    ============================================================ */
+    section { padding: 88px 0; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-head);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 14px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--red);
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: var(--blue);
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--steel);
+      line-height: 1.7;
+      max-width: 580px;
+    }
+
+    .section-header { margin-bottom: 56px; }
+
+    /* ============================================================
+       SERVICES
+    ============================================================ */
+    #servicios { background: var(--gray-bg); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 36px 30px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-border);
+      transition: transform var(--transition), box-shadow var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--blue);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .service-card:hover::after { opacity: 1; }
+
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--gray-bg);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      transition: background var(--transition);
+    }
+    .service-card:hover .service-icon { background: var(--blue); }
+    .service-card:hover .service-icon svg { color: var(--white); }
+
+    .service-icon svg {
+      color: var(--blue);
+      transition: color var(--transition);
+    }
+
+    .service-title {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    .service-desc {
+      font-size: 0.9rem;
+      color: var(--steel);
+      line-height: 1.65;
+    }
+
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 18px;
+      font-family: var(--font-head);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: gap var(--transition);
+    }
+    .service-link:hover { gap: 10px; }
+
+    /* ============================================================
+       WHY REMSA
+    ============================================================ */
+    #por-que { background: var(--white); }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .why-item {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .why-item:last-child { margin-bottom: 0; }
+
+    .why-icon-wrap {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .why-item-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+
+    .why-item-text {
+      font-size: 0.9rem;
+      color: var(--steel);
+      line-height: 1.65;
+    }
+
+    .why-visual {
+      position: sticky;
+      top: 96px;
+    }
+
+    .why-card-main {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+      padding: 48px 40px;
+      color: var(--white);
+      position: relative;
+    }
+    .why-card-main::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .why-card-label {
+      position: relative;
+      font-family: var(--font-head);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 12px;
+    }
+    .why-card-title {
+      position: relative;
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .why-card-text {
+      position: relative;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.80);
+      line-height: 1.7;
+    }
+
+    .why-card-stats {
+      position: relative;
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 28px;
+    }
+    .why-stat-val {
+      font-family: var(--font-head);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--yellow);
+    }
+    .why-stat-lbl {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.65);
+      font-weight: 600;
+    }
+
+    .cert-badges {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .cert-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================================
+       CLIENTS
+    ============================================================ */
+    #clientes { background: var(--gray-bg); }
+
+    .brands-label {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--steel-light);
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .brands-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--gray-border);
+      border: 1px solid var(--gray-border);
+      margin-bottom: 48px;
+    }
+
+    .brand-item {
+      background: var(--white);
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 120px;
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition);
+    }
+
+    .brand-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--blue);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .brand-item:hover { background: #f0f4f8; }
+    .brand-item:hover::after { transform: scaleX(1); }
+
+    .brand-logo {
+      height: 52px;
+      width: 100%;
+      max-width: 110px;
+      object-fit: contain;
+      filter: grayscale(100%) opacity(0.4);
+      transition: filter 0.3s ease;
+    }
+
+    .brand-item:hover .brand-logo {
+      filter: grayscale(0%) opacity(1);
+    }
+
+    .brand-logo-placeholder {
+      display: none;
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #aab;
+      text-align: center;
+      transition: color var(--transition);
+    }
+
+    .brand-item:hover .brand-logo-placeholder { color: var(--blue); }
+
+    .brand-img-error .brand-logo { display: none; }
+    .brand-img-error .brand-logo-placeholder { display: block; }
+
+    .brand-name {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #bbb;
+      text-align: center;
+      transition: color var(--transition);
+    }
+    .brand-item:hover .brand-name { color: var(--steel); }
+
+    .clients-divider {
+      height: 1px;
+      background: var(--gray-border);
+      margin: 40px 0;
+    }
+
+    .clients-label {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--steel-light);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .client-names-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .client-name-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+    }
+
+    .client-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex-shrink: 0;
+    }
+
+    .client-name {
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--gray-text);
+    }
+    .client-sector {
+      font-size: 0.75rem;
+      color: var(--steel-light);
+      margin-top: 2px;
+    }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    #contacto { background: var(--white); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--gray-text);
+      background: var(--white);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+      appearance: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,58,92,0.10);
+    }
+    .form-textarea { resize: vertical; min-height: 130px; }
+
+    .form-submit {
+      width: 100%;
+      padding: 15px 28px;
+      background: var(--blue);
+      color: var(--white);
+      font-family: var(--font-head);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .form-submit:hover { background: var(--blue-mid); transform: translateY(-1px); }
+
+    .contact-sidebar {
+      position: sticky;
+      top: 88px;
+    }
+
+    .contact-info-card {
+      background: var(--gray-bg);
+      border: 1px solid var(--gray-border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .contact-card-header {
+      background: var(--blue);
+      padding: 24px 28px;
+    }
+
+    .contact-card-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .contact-card-sub {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.70);
+    }
+
+    .contact-card-body { padding: 24px 28px; }
+
+    .contact-info-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+    .contact-info-item:last-child { margin-bottom: 0; }
+
+    .ci-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ci-label {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--steel-light);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 3px;
+    }
+
+    .ci-value {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--gray-text);
+      line-height: 1.5;
+    }
+
+    .ci-value a { color: var(--blue); }
+    .ci-value a:hover { text-decoration: underline; }
+
+    .contact-urgency {
+      background: rgba(204,0,0,0.06);
+      border: 1px solid rgba(204,0,0,0.15);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-top: 20px;
+      font-size: 0.82rem;
+      color: var(--red);
+      font-weight: 600;
+      font-family: var(--font-head);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    #footer {
+      background: #0F2540;
+      padding: 56px 0 28px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .footer-brand .nav-logo {
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    .footer-brand p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      max-width: 300px;
+    }
+
+    .footer-rfc {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.08em;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-head);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--yellow);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-contact-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .footer-contact-item svg { opacity: 0.55; flex-shrink: 0; margin-top: 1px; }
+    .footer-contact-item span {
+      font-size: 0.86rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+
+    .footer-bottom {
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-bottom-links a {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+      transition: color var(--transition);
+    }
+    .footer-bottom-links a:hover { color: rgba(255,255,255,0.7); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .why-grid { gap: 40px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .contact-sidebar { position: static; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 64px 0; }
+
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      .hero-title { font-size: 1.8rem; }
+      .hero-sub { font-size: 0.95rem; }
+      .hero-btns { flex-direction: column; align-items: flex-start; }
+
+      .why-grid { grid-template-columns: 1fr; }
+      .why-visual { display: none; }
+
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+      .stat-item { flex: 1 1 140px; }
+    }
+
+    @media (max-width: 480px) {
+      .brands-grid { grid-template-columns: repeat(2, 1fr); }
+      .client-names-grid { grid-template-columns: 1fr; }
+      .hero-badges { flex-direction: column; gap: 12px; }
+    }
+
+    /* ============================================================
+       SCROLL-TO-TOP
+    ============================================================ */
+    #scroll-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 44px;
+      height: 44px;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s, background var(--transition);
+      z-index: 500;
+    }
+    #scroll-top.show { opacity: 1; visibility: visible; }
+    #scroll-top:hover { background: var(--blue-mid); }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#hero" class="nav-logo" aria-label="REMSA inicio">
+          <img src="docs/logo.jpeg" alt="REMSA - Maquinaria Servicio y Refacciones">
+        </a>
+        <ul class="nav-links" role="list">
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#por-que">Por qué REMSA</a></li>
+          <li><a href="#clientes">Clientes</a></li>
+          <li><a href="#contacto" class="nav-cta">Solicitar cotización</a></li>
+        </ul>
+        <button class="nav-hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Menú móvil">
+    <ul>
+      <li><a href="#servicios" class="menu-link">Servicios</a></li>
+      <li><a href="#por-que" class="menu-link">Por qué REMSA</a></li>
+      <li><a href="#clientes" class="menu-link">Clientes</a></li>
+      <li><a href="#contacto" class="menu-link">Solicitar cotización</a></li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero" aria-labelledby="hero-title">
+    <div class="hero-geo" aria-hidden="true">
+      <div class="hex-ring"></div>
+      <div class="hex-ring"></div>
+      <div class="hex-ring"></div>
+      <div class="hex-ring"></div>
+      <div class="hero-corner"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-eyebrow fade-in" aria-hidden="true">Diagnóstico preciso · Refacciones certificadas · Servicio garantizado</div>
+        <h1 class="hero-title fade-in fade-in-delay-1" id="hero-title">
+          Mantenimiento de maquinaria pesada con <em>precisión de ingeniería</em>
+        </h1>
+        <p class="hero-sub fade-in fade-in-delay-2">
+          Diagnóstico electrónico, sistemas hidráulicos y refacciones certificadas para equipos de construcción y minería. Respaldados por capacitación internacional y software oficial CAT SIS.
+        </p>
+        <div class="hero-btns fade-in fade-in-delay-3">
+          <a href="#contacto" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18C0 .61.59.01 1.18.01h3a2 2 0 012 1.72c.12.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L5.91 8.09a16 16 0 006 6l1.45-1.45a2 2 0 012.11-.45c.91.35 1.85.6 2.81.72A2 2 0 0122 14.92z"/></svg>
+            Solicitar cotización
+          </a>
+          <a href="#servicios" class="btn-outline">
+            Ver servicios
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        <div class="hero-badges fade-in fade-in-delay-4">
+          <div class="hero-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Software CAT SIS Oficial
+          </div>
+          <div class="hero-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Fundada 2023 · RFC TMO231228H92
+          </div>
+          <div class="hero-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 010 8.49M7.76 16.24a6 6 0 010-8.49M20.49 3.51a12 12 0 010 16.97M3.51 20.49a12 12 0 010-16.97"/></svg>
+            Clientes en 3 países
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS / TRUST BAR
+  ============================================================ -->
+  <section id="stats" aria-label="Métricas de confianza">
+    <div class="container">
+      <div class="stats-bar">
+        <div class="stat-item fade-in">
+          <div class="stat-number">30+</div>
+          <div class="stat-label">Motores<br>reparados</div>
+        </div>
+        <div class="stat-item fade-in fade-in-delay-1">
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Diagnósticos<br>electrónicos</div>
+        </div>
+        <div class="stat-item fade-in fade-in-delay-2">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Bombas<br>hidráulicas</div>
+        </div>
+        <div class="stat-item fade-in fade-in-delay-3">
+          <div class="stat-number">2023</div>
+          <div class="stat-label">Año de<br>fundación</div>
+        </div>
+        <div class="stat-item fade-in fade-in-delay-4">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Países<br>con clientes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICES
+  ============================================================ -->
+  <section id="servicios" aria-labelledby="servicios-title">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Nuestros servicios</span>
+        <h2 class="section-title" id="servicios-title">Soluciones técnicas para maquinaria pesada</h2>
+        <p class="section-sub">Ofrecemos servicio integral con tecnología de punta, refacciones genuinas y personal especializado en las marcas líderes del sector.</p>
+      </div>
+      <div class="services-grid">
+
+        <!-- Card 1: Mantenimiento -->
+        <div class="service-card fade-in">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <h3 class="service-title">Mantenimiento Integral</h3>
+          <p class="service-desc">Mantenimiento preventivo y correctivo completo para excavadoras, tractores, cargadores frontales y equipos de minería. Reducimos tiempos muertos y extendemos la vida útil de tu flota.</p>
+          <a href="#contacto" class="service-link" aria-label="Cotizar mantenimiento integral">
+            Solicitar servicio
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <!-- Card 2: Hidráulicos -->
+        <div class="service-card fade-in fade-in-delay-1">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.07 4.93a10 10 0 010 14.14M4.93 19.07a10 10 0 010-14.14"/>
+              <path d="M15.54 8.46a5 5 0 010 7.07M8.46 15.54a5 5 0 010-7.07"/>
+            </svg>
+          </div>
+          <h3 class="service-title">Sistemas Hidráulicos</h3>
+          <p class="service-desc">Diagnóstico y reparación de bombas, cilindros, válvulas y circuitos hidráulicos. Utilizamos equipos de medición certificados para garantizar la presión y el flujo correctos según especificaciones de fábrica.</p>
+          <a href="#contacto" class="service-link" aria-label="Cotizar sistemas hidráulicos">
+            Solicitar servicio
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <!-- Card 3: Refacciones -->
+        <div class="service-card fade-in fade-in-delay-2">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="2"/>
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+          <h3 class="service-title">Refacciones Certificadas</h3>
+          <p class="service-desc">Suministro de refacciones originales y equivalentes de alta calidad con certificado de fabricante. Catálogos actualizados para Caterpillar, Komatsu, Case, JCB y otras marcas líderes.</p>
+          <a href="#contacto" class="service-link" aria-label="Solicitar refacciones certificadas">
+            Solicitar cotización
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <!-- Card 4: Diagnóstico -->
+        <div class="service-card fade-in fade-in-delay-3">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+              <polyline points="7 10 10 13 15 8"/>
+            </svg>
+          </div>
+          <h3 class="service-title">Electrónica y Diagnóstico</h3>
+          <p class="service-desc">Lectura y borrado de códigos de falla, programación de ECM/UCM y análisis de parámetros con software oficial CAT SIS. Diagnóstico preciso que reduce costos de reparación innecesaria.</p>
+          <a href="#contacto" class="service-link" aria-label="Solicitar diagnóstico electrónico">
+            Solicitar diagnóstico
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WHY REMSA
+  ============================================================ -->
+  <section id="por-que" aria-labelledby="porque-title">
+    <div class="container">
+      <div class="why-grid">
+        <div>
+          <div class="section-header fade-in">
+            <span class="section-label">Por qué elegirnos</span>
+            <h2 class="section-title" id="porque-title">Respaldo técnico que protege tu inversión</h2>
+            <p class="section-sub">No somos un taller genérico. Cada técnico REMSA está formado para trabajar con los estándares que exigen los fabricantes y las licitaciones más exigentes.</p>
+          </div>
+
+          <div class="why-item fade-in">
+            <div class="why-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <h3 class="why-item-title">Capacitación internacional — Montreal, Canadá</h3>
+              <p class="why-item-text">Nuestro personal técnico ha sido entrenado en centros especializados en Canadá bajo estándares internacionales de la industria de maquinaria pesada, garantizando diagnósticos certeros y reparaciones duraderas.</p>
+            </div>
+          </div>
+
+          <div class="why-item fade-in fade-in-delay-1">
+            <div class="why-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="7 10 10 13 15 8"/></svg>
+            </div>
+            <div>
+              <h3 class="why-item-title">Software oficial CAT SIS</h3>
+              <p class="why-item-text">Trabajamos con las herramientas de diagnóstico que utilizan los concesionarios autorizados. Esto nos permite acceder a parámetros reales del fabricante, actualizaciones de firmware y manuales de servicio completos.</p>
+            </div>
+          </div>
+
+          <div class="why-item fade-in fade-in-delay-2">
+            <div class="why-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div>
+              <h3 class="why-item-title">Refacciones con certificado de fabricante</h3>
+              <p class="why-item-text">Entregamos documentación completa de procedencia y garantía en cada pieza. Cumplimos con los requisitos de trazabilidad que exigen contratos gubernamentales y licitaciones formales en México y el extranjero.</p>
+            </div>
+          </div>
+
+          <div class="why-item fade-in fade-in-delay-3">
+            <div class="why-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <h3 class="why-item-title">Respuesta rápida y transparencia total</h3>
+              <p class="why-item-text">Cotización detallada en menos de 24 horas. Sin cargos ocultos, con reporte fotográfico del diagnóstico y comunicación directa durante todo el proceso de servicio.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-visual">
+          <div class="why-card-main fade-in fade-in-delay-1">
+            <div class="why-card-label">Diferenciadores clave</div>
+            <h3 class="why-card-title">Estándares de concesionario. Precio de taller independiente.</h3>
+            <p class="why-card-text">Combinamos el nivel técnico de los distribuidores autorizados con la flexibilidad y atención personalizada de una empresa comprometida con sus clientes.</p>
+            <div class="why-card-stats">
+              <div>
+                <div class="why-stat-val">24h</div>
+                <div class="why-stat-lbl">Cotización garantizada</div>
+              </div>
+              <div>
+                <div class="why-stat-val">100%</div>
+                <div class="why-stat-lbl">Refacciones certificadas</div>
+              </div>
+            </div>
+            <div class="cert-badges">
+              <span class="cert-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                CAT SIS Oficial
+              </span>
+              <span class="cert-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Capacitación Montreal
+              </span>
+              <span class="cert-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                RFC Vigente
+              </span>
+              <span class="cert-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                3 Países
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CLIENTS
+  ============================================================ -->
+  <section id="clientes" aria-labelledby="clientes-title">
+    <div class="container">
+      <div class="section-header fade-in" style="text-align:center;">
+        <span class="section-label" style="justify-content:center;">Marcas y clientes</span>
+        <h2 class="section-title" id="clientes-title" style="margin:0 auto;">Servicio para las marcas líderes de la industria</h2>
+        <p class="section-sub" style="margin:0 auto; text-align:center;">Trabajamos con maquinaria de los fabricantes más exigentes y colaboramos con empresas de primer nivel.</p>
+      </div>
+
+      <div class="brands-label fade-in">Marcas de equipo que atendemos</div>
+      <div class="brands-grid fade-in">
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/caterpillar.jpg" alt="Caterpillar" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">Caterpillar</span>
+          <span class="brand-name">Caterpillar</span>
+        </div>
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/komatsu.png" alt="Komatsu" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">Komatsu</span>
+          <span class="brand-name">Komatsu</span>
+        </div>
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/case.png" alt="Case" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">Case</span>
+          <span class="brand-name">Case</span>
+        </div>
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/terex.png" alt="Terex" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">Terex</span>
+          <span class="brand-name">Terex</span>
+        </div>
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/sandvik.png" alt="Sandvik" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">Sandvik</span>
+          <span class="brand-name">Sandvik</span>
+        </div>
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/jcb.png" alt="JCB" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">JCB</span>
+          <span class="brand-name">JCB</span>
+        </div>
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/liebherr.png" alt="Liebherr" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">Liebherr</span>
+          <span class="brand-name">Liebherr</span>
+        </div>
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/atlas_copco.png" alt="Atlas Copco" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">Atlas Copco</span>
+          <span class="brand-name">Atlas Copco</span>
+        </div>
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/dynapac.png" alt="Dynapac" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">Dynapac</span>
+          <span class="brand-name">Dynapac</span>
+        </div>
+        <div class="brand-item">
+          <img class="brand-logo" src="assets/img/icons/ingersoll_rand.png" alt="Ingersoll-Rand" onerror="this.closest('.brand-item').classList.add('brand-img-error')">
+          <span class="brand-logo-placeholder">Ingersoll-Rand</span>
+          <span class="brand-name">Ingersoll-Rand</span>
+        </div>
+      </div>
+
+      <div class="clients-divider fade-in"></div>
+
+      <div class="clients-label fade-in">Clientes que confían en REMSA</div>
+      <div class="client-names-grid fade-in">
+        <div class="client-name-item">
+          <div class="client-dot"></div>
+          <div>
+            <div class="client-name">Constructora EPSA</div>
+            <div class="client-sector">Construcción · México</div>
+          </div>
+        </div>
+        <div class="client-name-item">
+          <div class="client-dot"></div>
+          <div>
+            <div class="client-name">Salini Impregilo</div>
+            <div class="client-sector">Construcción de infraestructura · Internacional</div>
+          </div>
+        </div>
+        <div class="client-name-item">
+          <div class="client-dot"></div>
+          <div>
+            <div class="client-name">Presidencia Municipal Zimapán</div>
+            <div class="client-sector">Gobierno municipal · Hidalgo, México</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+  <section id="contacto" aria-labelledby="contacto-title">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Contacto</span>
+        <h2 class="section-title" id="contacto-title">Solicite su cotización sin compromiso</h2>
+        <p class="section-sub">Cuéntenos sobre su equipo y el servicio que necesita. Le respondemos en menos de 24 horas con una cotización detallada.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="fade-in">
+          <form
+            action="mailto:gpo_remsa@hotmail.com"
+            method="POST"
+            enctype="text/plain"
+            aria-label="Formulario de cotización REMSA"
+          >
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="nombre">Nombre completo <span aria-hidden="true">*</span></label>
+                <input
+                  class="form-input"
+                  type="text"
+                  id="nombre"
+                  name="Nombre"
+                  placeholder="Ing. Juan Pérez"
+                  required
+                  autocomplete="name"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="empresa">Empresa <span aria-hidden="true">*</span></label>
+                <input
+                  class="form-input"
+                  type="text"
+                  id="empresa"
+                  name="Empresa"
+                  placeholder="Constructora XYZ"
+                  required
+                  autocomplete="organization"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="telefono">Teléfono <span aria-hidden="true">*</span></label>
+                <input
+                  class="form-input"
+                  type="tel"
+                  id="telefono"
+                  name="Teléfono"
+                  placeholder="+52 771 000 0000"
+                  required
+                  autocomplete="tel"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="equipo">Tipo de equipo</label>
+                <select class="form-select" id="equipo" name="Tipo de equipo">
+                  <option value="" disabled selected>Seleccionar...</option>
+                  <option value="Excavadora">Excavadora</option>
+                  <option value="Tractor de oruga">Tractor de oruga</option>
+                  <option value="Cargador frontal">Cargador frontal</option>
+                  <option value="Camión minero">Camión minero</option>
+                  <option value="Motoniveladora">Motoniveladora</option>
+                  <option value="Compactador">Compactador</option>
+                  <option value="Perforadora">Perforadora</option>
+                  <option value="Grúa">Grúa</option>
+                  <option value="Otro">Otro equipo</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mensaje">Descripción del servicio requerido</label>
+              <textarea
+                class="form-textarea"
+                id="mensaje"
+                name="Mensaje"
+                placeholder="Indique la marca del equipo, modelo, año y el problema que presenta o el servicio que necesita..."
+              ></textarea>
+            </div>
+            <button type="submit" class="form-submit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Enviar solicitud de cotización
+            </button>
+            <p style="margin-top:14px; font-size:0.78rem; color:var(--steel-light);">
+              Al enviar este formulario acepta que nos comuniquemos con usted para atender su solicitud.
+            </p>
+          </form>
+        </div>
+
+        <aside class="contact-sidebar fade-in fade-in-delay-2" aria-label="Información de contacto">
+          <div class="contact-info-card">
+            <div class="contact-card-header">
+              <div class="contact-card-title">Información de contacto</div>
+              <div class="contact-card-sub">Atención directa con nuestros técnicos</div>
+            </div>
+            <div class="contact-card-body">
+
+              <div class="contact-info-item">
+                <div class="ci-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18C0 .61.59.01 1.18.01h3a2 2 0 012 1.72c.12.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L5.91 8.09a16 16 0 006 6l1.45-1.45a2 2 0 012.11-.45c.91.35 1.85.6 2.81.72A2 2 0 0122 14.92z"/></svg>
+                </div>
+                <div>
+                  <div class="ci-label">Teléfonos</div>
+                  <div class="ci-value">
+                    <a href="tel:+527718428884">771 842 8884</a><br>
+                    <a href="tel:+527712388481">771 238 8481</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="ci-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div>
+                  <div class="ci-label">Correo electrónico</div>
+                  <div class="ci-value">
+                    <a href="mailto:gpo_remsa@hotmail.com">gpo_remsa@hotmail.com</a>
+                  </div>
+                </div>
+                <div>
+                  <div class="ci-label">Redes sociales</div>
+                  <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+                    <a href="#" aria-label="Facebook" style="width:34px;height:34px;border-radius:50%;border:1px solid var(--gray-border);display:flex;align-items:center;justify-content:center;color:var(--steel);transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='#1877F2';this.style.color='#1877F2'" onmouseout="this.style.borderColor='var(--gray-border)';this.style.color='var(--steel)'">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                    </a>
+                    <a href="https://wa.me/527718428884" aria-label="WhatsApp" style="width:34px;height:34px;border-radius:50%;border:1px solid var(--gray-border);display:flex;align-items:center;justify-content:center;color:var(--steel);transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='#25D366';this.style.color='#25D366'" onmouseout="this.style.borderColor='var(--gray-border)';this.style.color='var(--steel)'">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L.054 23.25a.75.75 0 00.916.916l5.392-1.479A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.95 9.95 0 01-5.187-1.448l-.37-.22-3.838 1.051 1.052-3.838-.22-.37A9.95 9.95 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                    </a>
+                    <a href="#" aria-label="LinkedIn" style="width:34px;height:34px;border-radius:50%;border:1px solid var(--gray-border);display:flex;align-items:center;justify-content:center;color:var(--steel);transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='#0A66C2';this.style.color='#0A66C2'" onmouseout="this.style.borderColor='var(--gray-border)';this.style.color='var(--steel)'">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="ci-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div>
+                  <div class="ci-label">Horario de atención</div>
+                  <div class="ci-value">
+                    Lunes – Viernes: 9:00 – 17:30<br>
+                    Sábado: 9:00 – 14:00
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="ci-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <div class="ci-label">Cobertura</div>
+                  <div class="ci-value">
+                    Veracruz · Hidalgo · México<br>
+                    <span style="color:var(--steel-light); font-size:0.8rem;">Servicio a domicilio disponible</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-urgency" role="note" aria-label="Servicio de emergencia">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Emergencias de maquinaria: llame directo al 771 842 8884
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="nav-logo" aria-label="REMSA inicio">
+            <img src="docs/logo.jpeg" alt="REMSA" style="height:48px;width:auto;display:block;object-fit:contain">
+          </a>
+          <p>Empresa mexicana especializada en maquinaria pesada para la industria de la construcción y minería. Servicio técnico con estándares internacionales desde Veracruz e Hidalgo.</p>
+          <div class="footer-rfc" aria-label="RFC de la empresa">
+            RFC: TMO231228H92
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Navegación</div>
+          <ul class="footer-links" role="list">
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#por-que">Por qué REMSA</a></li>
+            <li><a href="#clientes">Clientes</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#contacto">Solicitar cotización</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Contacto</div>
+          <div class="footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18C0 .61.59.01 1.18.01h3a2 2 0 012 1.72c.12.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L5.91 8.09a16 16 0 006 6l1.45-1.45a2 2 0 012.11-.45c.91.35 1.85.6 2.81.72A2 2 0 0122 14.92z"/></svg>
+            <span>771 842 8884 / 771 238 8481</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>gpo_remsa@hotmail.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>L–V 9:00–17:30 · Sáb 9:00–14:00</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Veracruz · Hidalgo · México</span>
+          </div>
+          <div style="display:flex;gap:0.5rem;margin-top:1rem;">
+            <a href="#" aria-label="Facebook" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='#1877F2';this.style.color='#1877F2'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.5)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="https://wa.me/527718428884" aria-label="WhatsApp" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='#25D366';this.style.color='#25D366'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.5)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L.054 23.25a.75.75 0 00.916.916l5.392-1.479A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.95 9.95 0 01-5.187-1.448l-.37-.22-3.838 1.051 1.052-3.838-.22-.37A9.95 9.95 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='#0A66C2';this.style.color='#0A66C2'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.5)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 REMSA — Maquinaria Servicio y Refacciones. Todos los derechos reservados.</p>
+        <div class="footer-bottom-links">
+          <a href="#hero">Inicio</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to top -->
+  <button id="scroll-top" aria-label="Volver al inicio">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <!-- ============================================================
+       JAVASCRIPT — IntersectionObserver + hamburger + scroll-top
+  ============================================================ -->
+  <script>
+    // ── Scroll animations ──────────────────────────────────────
+    (function () {
+      var els = document.querySelectorAll('.fade-in');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('visible'); });
+        return;
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      els.forEach(function (el) { observer.observe(el); });
+    })();
+
+    // ── Mobile hamburger ───────────────────────────────────────
+    (function () {
+      var btn   = document.getElementById('hamburger');
+      var menu  = document.getElementById('mobile-menu');
+      var links = document.querySelectorAll('.menu-link');
+
+      function close() {
+        menu.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+
+      btn.addEventListener('click', function () {
+        var open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      links.forEach(function (link) {
+        link.addEventListener('click', close);
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+          close();
+        }
+      });
+    })();
+
+    // ── Scroll-to-top button ───────────────────────────────────
+    (function () {
+      var btn = document.getElementById('scroll-top');
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > 400) {
+          btn.classList.add('show');
+        } else {
+          btn.classList.remove('show');
+        }
+      }, { passive: true });
+      btn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+  </script>
+
+  <!-- Back to top -->
+  <button id="btt" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+  <style>
+    #btt {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s, background 0.2s;
+      z-index: 999;
+      pointer-events: none;
+    }
+    #btt.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #btt:hover { background: var(--red); }
+  </style>
+  <script>
+    const btt = document.getElementById('btt');
+    window.addEventListener('scroll', () => {
+      btt.classList.toggle('visible', window.scrollY > 400);
+    });
+  </script>
+
+</body>
+</html>

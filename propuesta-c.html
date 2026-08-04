@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>REMSA — Ingeniería de Campo para Maquinaria Pesada</title>
+<meta name="description" content="REMSA: diagnóstico electrónico, sistemas hidráulicos y refacciones certificadas para maquinaria pesada de construcción y minería. Veracruz e Hidalgo, México." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:      #0a0a0b;
+    --ink-2:    #131315;
+    --ink-3:    #1b1b1e;
+    --line:     #29292d;
+    --white:    #f7f7f5;
+    --gray:     #9a9aa0;
+    --gray-dim: #6a6a70;
+    --yellow:   #F5C000;
+    --yellow-hi:#FFDD57;
+    --red:      #CC0000;
+    --red-hi:   #FF4D3D;
+    --f-head:   'Anton', sans-serif;
+    --f-body:   'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--f-body);
+    background: var(--ink);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+
+  .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 1.75rem; }
+  .container-wide { width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 1.75rem; }
+
+  ::selection { background: var(--yellow); color: var(--ink); }
+
+  /* ============================================================
+     REVEAL
+  ============================================================ */
+  .rv { opacity: 0; transform: translateY(36px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .rv.in { opacity: 1; transform: translateY(0); }
+  .rv-d1 { transition-delay: .08s; } .rv-d2 { transition-delay: .16s; }
+  .rv-d3 { transition-delay: .24s; } .rv-d4 { transition-delay: .32s; }
+
+  /* ============================================================
+     NAV
+  ============================================================ */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 1.1rem 0;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background .35s ease, border-color .35s ease, padding .35s ease;
+  }
+  #nav.solid {
+    background: rgba(10,10,11,0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: var(--line);
+    padding: 0.75rem 0;
+  }
+  .nav-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .nav-logo { display: flex; align-items: center; text-decoration: none; }
+  .nav-logo img { height: 30px; width: auto; }
+
+  .nav-links { display: flex; align-items: center; gap: 2.1rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    text-decoration: none; color: var(--gray);
+    transition: color .2s;
+    position: relative;
+  }
+  .nav-links a:not(.nav-cta)::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
+    background: var(--yellow); transform: scaleX(0); transform-origin: left; transition: transform .25s ease;
+  }
+  .nav-links a:not(.nav-cta):hover { color: var(--white); }
+  .nav-links a:not(.nav-cta):hover::after { transform: scaleX(1); }
+
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: .4rem;
+    background: var(--yellow); color: var(--ink) !important;
+    padding: .6rem 1.15rem; border-radius: 100px; text-decoration: none;
+    font-weight: 800 !important;
+    transition: background .2s, transform .2s;
+  }
+  .nav-cta:hover { background: var(--yellow-hi); transform: translateY(-1px); }
+
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: .4rem;
+  }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+
+  .mmenu {
+    display: none; position: fixed; top: 0; right: 0; bottom: 0; width: min(80vw, 340px);
+    background: var(--ink-2); border-left: 1px solid var(--line); z-index: 1100;
+    padding: 5.5rem 2rem 2rem; flex-direction: column; gap: 1.6rem;
+  }
+  .mmenu.open { display: flex; }
+  .mmenu a { font-family: var(--f-head); font-size: 1.4rem; letter-spacing: .02em; text-decoration: none; color: var(--white); }
+  .mmenu .nav-cta { align-self: flex-start; margin-top: .5rem; }
+  .mmenu-close { position: absolute; top: 1.3rem; right: 1.5rem; background: none; border: none; color: var(--white); font-size: 1.6rem; cursor: pointer; }
+  .mmenu-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 1050; }
+  .mmenu-backdrop.open { display: block; }
+
+  /* ============================================================
+     HERO
+  ============================================================ */
+  #hero {
+    position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end;
+    overflow: hidden; padding-top: 6rem;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      linear-gradient(180deg, rgba(10,10,11,.55) 0%, rgba(10,10,11,.55) 45%, rgba(10,10,11,.96) 100%),
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(204,0,0,.28) 0%, transparent 60%),
+      url('https://images.unsplash.com/photo-1746349526405-a280f827bc6b?fm=jpg&q=80&w=1920&auto=format&fit=crop') center 30%/cover no-repeat;
+  }
+
+  .hero-noise {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .5;
+    background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  .hero-inner { position: relative; z-index: 2; padding-bottom: 2.5rem; }
+
+  .hero-kicker {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font-size: .72rem; font-weight: 800; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--yellow); margin-bottom: 1.4rem;
+  }
+  .hero-kicker::before { content: ''; width: 28px; height: 2px; background: var(--yellow); }
+
+  .hero-title {
+    font-family: var(--f-head);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(3rem, 10.5vw, 8.6rem);
+    line-height: .88;
+    letter-spacing: .002em;
+    color: var(--white);
+    max-width: 1180px;
+  }
+  .hero-title .line { display: block; }
+  .hero-title .hl-red { color: var(--red-hi); }
+  .hero-title .hl-outline {
+    -webkit-text-stroke: 2px var(--white);
+    color: transparent;
+  }
+
+  .hero-foot {
+    margin-top: 2.4rem;
+    display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 2rem;
+  }
+
+  .hero-sub { max-width: 460px; color: var(--gray); font-size: 1.02rem; line-height: 1.75; }
+
+  .hero-actions { display: flex; gap: .9rem; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: .55rem;
+    font-family: var(--f-body); font-weight: 800; font-size: .82rem; letter-spacing: .07em; text-transform: uppercase;
+    text-decoration: none; padding: 1rem 1.9rem; border-radius: 100px; cursor: pointer; border: 2px solid transparent;
+    transition: transform .2s, background .2s, border-color .2s, color .2s;
+  }
+  .btn-solid { background: var(--yellow); color: var(--ink); }
+  .btn-solid:hover { background: var(--yellow-hi); transform: translateY(-2px); }
+  .btn-ghost { border-color: rgba(255,255,255,.28); color: var(--white); }
+  .btn-ghost:hover { border-color: var(--white); transform: translateY(-2px); }
+  .btn-block-red { background: var(--red); color: var(--white); }
+  .btn-block-red:hover { background: var(--red-hi); transform: translateY(-2px); }
+
+  /* ============================================================
+     MARQUEE TICKER
+  ============================================================ */
+  .ticker-wrap {
+    position: relative; z-index: 3;
+    background: var(--yellow); color: var(--ink);
+    overflow: hidden; white-space: nowrap;
+    padding: .85rem 0;
+    border-top: 1px solid rgba(0,0,0,.08);
+  }
+  .ticker-track { display: inline-flex; animation: ticker 26s linear infinite; }
+  .ticker-track span {
+    font-family: var(--f-head); font-weight: 400; text-transform: uppercase;
+    font-size: 1.05rem; letter-spacing: .04em; padding: 0 1.6rem;
+    display: inline-flex; align-items: center; gap: 1.6rem;
+  }
+  .ticker-track span::after { content: '◆'; font-size: .55rem; color: var(--ink); opacity: .55; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ============================================================
+     LOGOS MARQUEE (brands)
+  ============================================================ */
+  #marcas { background: var(--ink-2); padding: 3.4rem 0; border-bottom: 1px solid var(--line); overflow: hidden; }
+  .marcas-label {
+    text-align: center; font-size: .7rem; font-weight: 800; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--gray-dim); margin-bottom: 2.2rem;
+  }
+  .logo-marquee { overflow: hidden; position: relative; }
+  .logo-marquee::before, .logo-marquee::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
+  }
+  .logo-marquee::before { left: 0; background: linear-gradient(90deg, var(--ink-2), transparent); }
+  .logo-marquee::after { right: 0; background: linear-gradient(270deg, var(--ink-2), transparent); }
+  .logo-track { display: inline-flex; gap: 3.5rem; animation: ticker 34s linear infinite; align-items: center; }
+  .logo-item { display: flex; align-items: center; justify-content: center; height: 44px; flex-shrink: 0; }
+  .logo-item img {
+    height: 34px; width: auto; max-width: 130px; object-fit: contain;
+    filter: grayscale(100%) brightness(2.4) opacity(.45);
+    transition: filter .3s;
+  }
+  .logo-item:hover img { filter: grayscale(0%) brightness(1) opacity(1); }
+  .logo-item .lbl { display: none; font-family: var(--f-head); font-size: 1rem; color: #555; letter-spacing: .06em; }
+  .logo-item.err img { display: none; }
+  .logo-item.err .lbl { display: block; }
+
+  /* ============================================================
+     SECTION UTIL
+  ============================================================ */
+  section { padding: 7rem 0; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font-size: .72rem; font-weight: 800; letter-spacing: .26em; text-transform: uppercase; color: var(--red-hi);
+    margin-bottom: 1.1rem;
+  }
+  .eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--red-hi); }
+  .h2 {
+    font-family: var(--f-head); font-weight: 400; text-transform: uppercase;
+    font-size: clamp(2.1rem, 5vw, 3.8rem); line-height: .96; letter-spacing: .01em; color: var(--white);
+  }
+  .h2 em { font-style: normal; color: var(--yellow); }
+  .lede { color: var(--gray); font-size: 1rem; max-width: 560px; line-height: 1.75; margin-top: 1.1rem; }
+
+  /* ============================================================
+     STATS BAND
+  ============================================================ */
+  #stats { background: var(--ink); padding: 5rem 0; border-bottom: 1px solid var(--line); }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .stat-box { padding: 0 1.5rem; border-left: 1px solid var(--line); }
+  .stat-box:first-child { border-left: none; padding-left: 0; }
+  .stat-num {
+    font-family: var(--f-head); font-weight: 400; font-size: clamp(2.6rem, 5vw, 4.2rem);
+    color: var(--yellow); line-height: 1; display: flex; align-items: baseline; gap: .2rem;
+  }
+  .stat-lbl { margin-top: .6rem; font-size: .82rem; color: var(--gray); letter-spacing: .02em; }
+
+  /* ============================================================
+     SERVICIOS — BENTO
+  ============================================================ */
+  #servicios { background: var(--ink); }
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 1.1rem;
+    margin-top: 3.5rem;
+  }
+  .bcard {
+    position: relative; border-radius: 20px; padding: 2.2rem;
+    background: var(--ink-2); border: 1px solid var(--line);
+    overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
+    transition: border-color .3s, transform .3s;
+  }
+  .bcard:hover { border-color: rgba(245,192,0,.4); transform: translateY(-4px); }
+  .bcard.big { grid-column: span 4; grid-row: span 2; padding: 2.8rem; }
+  .bcard.small { grid-column: span 2; grid-row: span 1; }
+  .bcard.wide { grid-column: span 3; grid-row: span 1; }
+
+  .bcard-glow {
+    position: absolute; width: 260px; height: 260px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,192,0,.14) 0%, transparent 70%);
+    top: -80px; right: -80px; pointer-events: none;
+  }
+  .bcard.accent-red .bcard-glow { background: radial-gradient(circle, rgba(204,0,0,.22) 0%, transparent 70%); }
+
+  .bicon {
+    width: 50px; height: 50px; border-radius: 12px; background: rgba(245,192,0,.1); border: 1px solid rgba(245,192,0,.25);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1.4rem;
+  }
+  .bicon svg { width: 24px; height: 24px; stroke: var(--yellow); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .bcard.accent-red .bicon { background: rgba(204,0,0,.12); border-color: rgba(204,0,0,.3); }
+  .bcard.accent-red .bicon svg { stroke: var(--red-hi); }
+
+  .bcard h3 { font-family: var(--f-head); font-weight: 400; text-transform: uppercase; font-size: 1.7rem; letter-spacing: .01em; color: #fff; margin-bottom: .6rem; }
+  .bcard.big h3 { font-size: 2.3rem; }
+  .bcard p { font-size: .9rem; color: var(--gray); line-height: 1.7; max-width: 44ch; }
+
+  .btags { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.2rem; }
+  .btag { font-size: .64rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); background: rgba(245,192,0,.08); border: 1px solid rgba(245,192,0,.2); padding: .25rem .6rem; border-radius: 100px; }
+  .bcard.accent-red .btag { color: var(--red-hi); background: rgba(204,0,0,.1); border-color: rgba(204,0,0,.28); }
+
+  /* ============================================================
+     PROCESO — TIMELINE
+  ============================================================ */
+  #proceso { background: var(--ink-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .proc-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .proc-grid { margin-top: 4rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+  .proc-grid::before {
+    content: ''; position: absolute; top: 27px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, var(--yellow), var(--red-hi));
+    opacity: .35;
+  }
+  .proc-step { padding-right: 2rem; position: relative; }
+  .proc-num {
+    font-family: var(--f-head); font-weight: 400; font-size: 1.6rem; color: var(--ink);
+    background: var(--yellow); width: 56px; height: 56px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1.6rem; position: relative; z-index: 2;
+  }
+  .proc-step:nth-child(2) .proc-num, .proc-step:nth-child(4) .proc-num { background: var(--white); }
+  .proc-step h4 { font-family: var(--f-head); font-weight: 400; text-transform: uppercase; font-size: 1.3rem; color: #fff; margin-bottom: .6rem; letter-spacing: .01em; }
+  .proc-step p { font-size: .86rem; color: var(--gray); line-height: 1.7; }
+
+  /* ============================================================
+     POR QUÉ REMSA — SPLIT
+  ============================================================ */
+  #porque { background: var(--ink); }
+  .porque-split { display: grid; grid-template-columns: .95fr 1.15fr; gap: 4rem; align-items: start; }
+
+  .porque-card {
+    position: sticky; top: 7rem;
+    border-radius: 24px; overflow: hidden; position: relative;
+    background: linear-gradient(155deg, #1c1c1f 0%, #0d0d0e 100%);
+    border: 1px solid var(--line); padding: 3rem 2.4rem;
+    min-height: 460px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .porque-card::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+  .porque-card > * { position: relative; z-index: 1; }
+  .porque-card-tag { font-size: .7rem; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; color: var(--yellow); margin-bottom: 1rem; }
+  .porque-card-title { font-family: var(--f-head); font-weight: 400; text-transform: uppercase; font-size: 2rem; line-height: 1.05; color: #fff; margin-bottom: 1rem; }
+  .porque-card-text { font-size: .9rem; color: var(--gray); line-height: 1.75; }
+  .porque-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid var(--line); }
+  .pc-num { font-family: var(--f-head); font-size: 1.8rem; color: var(--yellow); }
+  .pc-lbl { font-size: .74rem; color: var(--gray-dim); margin-top: .2rem; }
+
+  .porque-list { display: flex; flex-direction: column; gap: 0; }
+  .diff-row { display: flex; gap: 1.8rem; padding: 2.1rem 0; border-bottom: 1px solid var(--line); }
+  .diff-row:first-child { padding-top: 0; }
+  .diff-idx { font-family: var(--f-head); font-size: 2.4rem; color: var(--ink-3); -webkit-text-stroke: 1.5px var(--line); flex-shrink: 0; min-width: 64px; }
+  .diff-row h4 { font-family: var(--f-head); font-weight: 400; text-transform: uppercase; font-size: 1.35rem; color: #fff; margin-bottom: .5rem; letter-spacing: .01em; }
+  .diff-row p { font-size: .9rem; color: var(--gray); line-height: 1.75; }
+  .diff-row p .hl { color: var(--yellow); font-weight: 600; }
+
+  /* ============================================================
+     CTA BANNER
+  ============================================================ */
+  #cta {
+    background: var(--red);
+    padding: 5.5rem 0;
+    position: relative; overflow: hidden;
+  }
+  #cta::before {
+    content: 'REMSA'; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    font-family: var(--f-head); font-size: 16rem; color: rgba(255,255,255,.045); white-space: nowrap; pointer-events: none;
+  }
+  .cta-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 2.5rem; flex-wrap: wrap; }
+  .cta-inner h2 { font-family: var(--f-head); font-weight: 400; text-transform: uppercase; font-size: clamp(1.9rem, 4.6vw, 3.4rem); line-height: 1.02; color: #fff; max-width: 620px; }
+  .cta-inner h2 span { color: var(--ink); }
+
+  /* ============================================================
+     CONTACTO
+  ============================================================ */
+  #contacto { background: var(--ink); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 4rem; align-items: start; }
+
+  .contact-info-list { margin-top: 2.4rem; display: flex; flex-direction: column; gap: 1.4rem; }
+  .cinfo-row { display: flex; gap: 1rem; align-items: flex-start; }
+  .cinfo-ic {
+    width: 42px; height: 42px; border-radius: 10px; background: var(--ink-2); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .cinfo-ic svg { width: 18px; height: 18px; stroke: var(--yellow); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .cinfo-body strong { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--gray-dim); margin-bottom: .25rem; }
+  .cinfo-body a, .cinfo-body span { font-size: .95rem; color: var(--white); text-decoration: none; display: block; word-break: break-word; }
+  .cinfo-body a:hover { color: var(--yellow); }
+
+  .social-row { display: flex; gap: .7rem; margin-top: 2.2rem; }
+  .social-btn {
+    width: 42px; height: 42px; border-radius: 10px; border: 1px solid var(--line); background: var(--ink-2);
+    display: flex; align-items: center; justify-content: center; color: var(--gray); text-decoration: none; transition: border-color .2s, color .2s;
+  }
+  .social-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  .form-card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 22px; padding: 2.6rem; }
+  .form-card-title { font-family: var(--f-head); font-weight: 400; text-transform: uppercase; font-size: 1.7rem; color: #fff; margin-bottom: .4rem; }
+  .form-card-sub { font-size: .86rem; color: var(--gray); margin-bottom: 1.9rem; }
+
+  .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .fgroup { margin-bottom: 1.1rem; }
+  .fgroup label { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gray-dim); margin-bottom: .5rem; }
+  .fgroup input, .fgroup select, .fgroup textarea {
+    width: 100%; background: var(--ink); border: 1px solid var(--line); color: var(--white);
+    font-family: var(--f-body); font-size: .92rem; padding: .85rem 1.05rem; border-radius: 10px; outline: none;
+    transition: border-color .2s; appearance: none; -webkit-appearance: none;
+  }
+  .fgroup select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a9aa0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem;
+  }
+  .fgroup input:focus, .fgroup select:focus, .fgroup textarea:focus { border-color: var(--yellow); }
+  .fgroup input::placeholder, .fgroup textarea::placeholder { color: #4c4c50; }
+  .fgroup textarea { resize: vertical; min-height: 110px; }
+  .fsubmit { width: 100%; justify-content: center; margin-top: .4rem; }
+  .fnote { font-size: .74rem; color: var(--gray-dim); text-align: center; margin-top: .9rem; }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  footer { background: #000; border-top: 1px solid var(--line); padding: 4rem 0 2rem; }
+  .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; padding-bottom: 2.6rem; border-bottom: 1px solid var(--line); margin-bottom: 2rem; }
+  .footer-brand { font-family: var(--f-head); font-weight: 400; text-transform: uppercase; font-size: 2.4rem; color: #fff; letter-spacing: .01em; margin-bottom: .8rem; }
+  .footer-tag { font-size: .84rem; color: var(--gray); line-height: 1.75; max-width: 320px; margin-bottom: 1.2rem; }
+  .footer-rfc { display: inline-block; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gray-dim); border: 1px solid var(--line); padding: .4rem .8rem; border-radius: 100px; }
+
+  .footer-col h5 { font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 1.2rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+  .footer-col ul li a { font-size: .87rem; color: var(--gray); text-decoration: none; transition: color .2s; }
+  .footer-col ul li a:hover { color: #fff; }
+
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .footer-bottom p { font-size: .76rem; color: var(--gray-dim); }
+
+  /* ============================================================
+     BACK TO TOP
+  ============================================================ */
+  #btt {
+    position: fixed; bottom: 2rem; right: 2rem; width: 46px; height: 46px;
+    background: var(--yellow); color: var(--ink); border: none; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    opacity: 0; transform: translateY(14px); transition: opacity .3s, transform .3s, background .2s;
+    z-index: 999; pointer-events: none; box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  }
+  #btt.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  #btt:hover { background: var(--yellow-hi); }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 980px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    .bento { grid-template-columns: repeat(2, 1fr); }
+    .bcard.big { grid-column: span 2; grid-row: span 1; }
+    .bcard.small, .bcard.wide { grid-column: span 2; }
+
+    .proc-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem 1.5rem; }
+    .proc-grid::before { display: none; }
+
+    .porque-split { grid-template-columns: 1fr; gap: 2.5rem; }
+    .porque-card { position: static; }
+
+    .contact-grid { grid-template-columns: 1fr; gap: 2.8rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+    .stats-row { grid-template-columns: 1fr 1fr; gap: 2rem 0; }
+    .stat-box:nth-child(3) { border-left: none; }
+  }
+
+  @media (max-width: 620px) {
+    section { padding: 4.5rem 0; }
+    .frow { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .btn { width: 100%; justify-content: center; }
+    .cta-inner { flex-direction: column; align-items: flex-start; }
+    .cta-inner .btn { width: 100%; }
+    .proc-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav id="nav">
+    <div class="container nav-row">
+      <a href="#hero" class="nav-logo">
+        <img src="docs/logo.jpeg" alt="REMSA - Maquinaria Servicio y Refacciones">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#porque">Por qué REMSA</a></li>
+        <li><a href="#contacto" class="nav-cta">Solicitar servicio</a></li>
+      </ul>
+      <button class="hamburger" id="hbtn" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mmenu-backdrop" id="mbackdrop"></div>
+  <div class="mmenu" id="mmenu">
+    <button class="mmenu-close" id="mclose" aria-label="Cerrar menú">&times;</button>
+    <a href="#servicios" class="mlink">Servicios</a>
+    <a href="#proceso" class="mlink">Proceso</a>
+    <a href="#porque" class="mlink">Por qué REMSA</a>
+    <a href="#contacto" class="mlink nav-cta">Solicitar servicio</a>
+  </div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-noise"></div>
+    <div class="hero-inner container">
+      <div class="hero-kicker rv">Ingeniería de campo · Veracruz e Hidalgo</div>
+      <h1 class="hero-title rv rv-d1">
+        <span class="line">CERO PARO.</span>
+        <span class="line hl-red">MÁXIMO</span>
+        <span class="line hl-outline">RENDIMIENTO.</span>
+      </h1>
+      <div class="hero-foot rv rv-d2">
+        <p class="hero-sub">Diagnóstico electrónico, hidráulica de precisión y refacciones certificadas para la maquinaria que mueve tu obra o tu mina. Formación internacional, software oficial CAT SIS.</p>
+        <div class="hero-actions">
+          <a href="#contacto" class="btn btn-solid">Solicitar servicio</a>
+          <a href="#servicios" class="btn btn-ghost">Ver capacidades</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticker-wrap">
+      <div class="ticker-track">
+        <span>Mantenimiento Integral</span><span>Reparación Hidráulica</span><span>Refacciones OEM</span><span>Diagnóstico Electrónico</span><span>CAT SIS Oficial</span>
+        <span>Mantenimiento Integral</span><span>Reparación Hidráulica</span><span>Refacciones OEM</span><span>Diagnóstico Electrónico</span><span>CAT SIS Oficial</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MARCAS — LOGO MARQUEE
+  ============================================================ -->
+  <section id="marcas">
+    <div class="container-wide">
+      <p class="marcas-label">Marcas que dominamos</p>
+    </div>
+    <div class="logo-marquee">
+      <div class="logo-track" id="logoTrack">
+        <!-- items injected twice via JS-friendly duplication in markup -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS
+  ============================================================ -->
+  <section id="stats">
+    <div class="container">
+      <div class="stats-row">
+        <div class="stat-box rv">
+          <div class="stat-num"><span data-count="3">0</span></div>
+          <div class="stat-lbl">Países de certificación técnica</div>
+        </div>
+        <div class="stat-box rv rv-d1">
+          <div class="stat-num"><span data-count="10">0</span>+</div>
+          <div class="stat-lbl">Marcas de maquinaria atendidas</div>
+        </div>
+        <div class="stat-box rv rv-d2">
+          <div class="stat-num"><span data-count="24">0</span>h</div>
+          <div class="stat-lbl">Diagnóstico de respuesta rápida</div>
+        </div>
+        <div class="stat-box rv rv-d3">
+          <div class="stat-num"><span data-count="2023">0</span></div>
+          <div class="stat-lbl">Año de fundación</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICIOS — BENTO
+  ============================================================ -->
+  <section id="servicios">
+    <div class="container">
+      <div class="rv">
+        <span class="eyebrow">Capacidades</span>
+        <h2 class="h2">Todo lo que tu <em>equipo</em> necesita</h2>
+        <p class="lede">Servicio integral con tecnología de diagnóstico de nivel global y refacciones con trazabilidad de origen.</p>
+      </div>
+
+      <div class="bento">
+        <div class="bcard big rv">
+          <div class="bcard-glow"></div>
+          <div class="bicon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+          <h3>Mantenimiento Integral</h3>
+          <p>Programas predictivos, preventivos y correctivos diseñados para maximizar la vida útil de tu flota y minimizar paros no planeados en obra o mina.</p>
+          <div class="btags"><span class="btag">Predictivo</span><span class="btag">Preventivo</span><span class="btag">Correctivo</span></div>
+        </div>
+
+        <div class="bcard small accent-red rv rv-d1">
+          <div class="bcard-glow"></div>
+          <div class="bicon"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div>
+          <h3>Hidráulica</h3>
+          <p>Cilindros, bombas, motores y válvulas de alta presión.</p>
+        </div>
+
+        <div class="bcard small rv rv-d2">
+          <div class="bcard-glow"></div>
+          <div class="bicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <h3>Refacciones</h3>
+          <p>Origen certificado: EE.UU., Japón y Alemania. Calidad OEM.</p>
+        </div>
+
+        <div class="bcard wide rv rv-d3">
+          <div class="bcard-glow"></div>
+          <div class="bicon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <h3>Diagnóstico Electrónico</h3>
+          <p>Lectura de fallas, análisis de parámetros y programación de módulos ECM con software oficial CAT SIS.</p>
+          <div class="btags"><span class="btag">CAT SIS</span><span class="btag">ECM</span></div>
+        </div>
+
+        <div class="bcard wide accent-red rv rv-d4">
+          <div class="bcard-glow"></div>
+          <div class="bicon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.58 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.64a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <h3>Atención Directa</h3>
+          <p>Un especialista responde en menos de 24 horas hábiles, sin intermediarios.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PROCESO
+  ============================================================ -->
+  <section id="proceso">
+    <div class="container">
+      <div class="proc-head rv">
+        <div>
+          <span class="eyebrow">Cómo trabajamos</span>
+          <h2 class="h2">De la falla a la <em>solución</em></h2>
+        </div>
+        <p class="lede" style="margin-top:0;">Un proceso claro, documentado y sin sorpresas, de principio a fin.</p>
+      </div>
+
+      <div class="proc-grid">
+        <div class="proc-step rv">
+          <div class="proc-num">01</div>
+          <h4>Diagnóstico</h4>
+          <p>Lectura de códigos de falla y análisis con software oficial CAT SIS para identificar la causa raíz.</p>
+        </div>
+        <div class="proc-step rv rv-d1">
+          <div class="proc-num">02</div>
+          <h4>Cotización</h4>
+          <p>Presupuesto claro con refacciones certificadas y tiempos de entrega definidos, sin costos ocultos.</p>
+        </div>
+        <div class="proc-step rv rv-d2">
+          <div class="proc-num">03</div>
+          <h4>Ejecución</h4>
+          <p>Reparación en taller o en campo por técnicos con formación internacional certificada.</p>
+        </div>
+        <div class="proc-step rv rv-d3">
+          <div class="proc-num">04</div>
+          <h4>Garantía</h4>
+          <p>Respaldo documentado en cada intervención y seguimiento post-servicio directo con tu operación.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       POR QUÉ REMSA
+  ============================================================ -->
+  <section id="porque">
+    <div class="container">
+      <div class="rv" style="margin-bottom:3.5rem;">
+        <span class="eyebrow">Nuestra ventaja</span>
+        <h2 class="h2">No somos un taller <em>convencional</em></h2>
+      </div>
+
+      <div class="porque-split">
+        <div class="porque-card rv">
+          <div>
+            <p class="porque-card-tag">Estándar internacional</p>
+            <p class="porque-card-title">Formación que pocos talleres en México pueden igualar.</p>
+            <p class="porque-card-text">Personal técnico certificado por FAMIC Technologies en Canadá, con acceso al mismo sistema de diagnóstico que usan los distribuidores autorizados de Caterpillar.</p>
+          </div>
+          <div class="porque-card-stats">
+            <div><div class="pc-num">3</div><div class="pc-lbl">Continentes de proveedores certificados</div></div>
+            <div><div class="pc-num">100%</div><div class="pc-lbl">Refacciones con trazabilidad OEM</div></div>
+          </div>
+        </div>
+
+        <div class="porque-list">
+          <div class="diff-row rv">
+            <span class="diff-idx">01</span>
+            <div>
+              <h4>Capacitación en Canadá</h4>
+              <p>Personal técnico certificado por <span class="hl">FAMIC Technologies</span> — referente mundial en software de diagnóstico de maquinaria pesada.</p>
+            </div>
+          </div>
+          <div class="diff-row rv rv-d1">
+            <span class="diff-idx">02</span>
+            <div>
+              <h4>Software Oficial CAT SIS</h4>
+              <p>Utilizamos <span class="hl">SIS (Service Information System)</span> de Caterpillar para diagnóstico y reparación documentada con precisión de fábrica.</p>
+            </div>
+          </div>
+          <div class="diff-row rv rv-d2">
+            <span class="diff-idx">03</span>
+            <div>
+              <h4>Refacciones de Tres Continentes</h4>
+              <p>Red de proveedores certificados en <span class="hl">EE.UU., Japón y Alemania</span>. Piezas con trazabilidad de origen y especificaciones OEM.</p>
+            </div>
+          </div>
+          <div class="diff-row rv rv-d3" style="border-bottom:none;">
+            <span class="diff-idx">04</span>
+            <div>
+              <h4>Trato Directo</h4>
+              <p>Sin call centers ni intermediarios: hablas directo con quien va a atender tu equipo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA BANNER
+  ============================================================ -->
+  <section id="cta">
+    <div class="container cta-inner rv">
+      <h2>¿Tu maquinaria está parada? <span>Hablemos hoy mismo.</span></h2>
+      <a href="https://wa.me/527718428884" class="btn btn-solid" target="_blank" rel="noopener">
+        Escríbenos por WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACTO
+  ============================================================ -->
+  <section id="contacto">
+    <div class="container">
+      <div class="contact-grid">
+
+        <div class="rv">
+          <span class="eyebrow">Contáctanos</span>
+          <h2 class="h2">Hablemos de <em>tu equipo</em></h2>
+          <p class="lede">¿Falla, plan de mantenimiento o refacciones? Un especialista te responde en menos de 24 horas.</p>
+
+          <div class="contact-info-list">
+            <div class="cinfo-row">
+              <div class="cinfo-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.58 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.64a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <div class="cinfo-body">
+                <strong>Teléfonos</strong>
+                <a href="tel:7718428884">771 842 8884</a>
+                <a href="tel:7712388481">771 238 8481</a>
+              </div>
+            </div>
+            <div class="cinfo-row">
+              <div class="cinfo-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div class="cinfo-body">
+                <strong>Email</strong>
+                <a href="mailto:gpo_remsa@hotmail.com">gpo_remsa@hotmail.com</a>
+              </div>
+            </div>
+            <div class="cinfo-row">
+              <div class="cinfo-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              <div class="cinfo-body">
+                <strong>Horario</strong>
+                <span>Lun – Vie: 9:00 – 17:30 hrs</span>
+                <span>Sábado: 9:00 – 14:00 hrs</span>
+              </div>
+            </div>
+            <div class="cinfo-row">
+              <div class="cinfo-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div class="cinfo-body">
+                <strong>Zona de cobertura</strong>
+                <span>Veracruz e Hidalgo, México</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-row">
+            <a href="#" class="social-btn" aria-label="Facebook"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+            <a href="https://wa.me/527718428884" class="social-btn" aria-label="WhatsApp"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L.054 23.25a.75.75 0 00.916.916l5.392-1.479A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.95 9.95 0 01-5.187-1.448l-.37-.22-3.838 1.051 1.052-3.838-.22-.37A9.95 9.95 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+            <a href="#" class="social-btn" aria-label="LinkedIn"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          </div>
+        </div>
+
+        <div class="form-card rv rv-d2">
+          <p class="form-card-title">Solicitud de servicio</p>
+          <p class="form-card-sub">Cuéntanos qué necesitas, te respondemos en menos de 24 horas hábiles.</p>
+
+          <form action="mailto:gpo_remsa@hotmail.com" method="post" enctype="text/plain">
+            <div class="frow">
+              <div class="fgroup">
+                <label for="nombre">Nombre completo *</label>
+                <input type="text" id="nombre" name="Nombre" placeholder="Juan Pérez" required />
+              </div>
+              <div class="fgroup">
+                <label for="empresa">Empresa</label>
+                <input type="text" id="empresa" name="Empresa" placeholder="Constructora XYZ" />
+              </div>
+            </div>
+            <div class="frow">
+              <div class="fgroup">
+                <label for="telefono">Teléfono *</label>
+                <input type="tel" id="telefono" name="Teléfono" placeholder="+52 771 000 0000" required />
+              </div>
+              <div class="fgroup">
+                <label for="equipo">Tipo de equipo *</label>
+                <select id="equipo" name="Equipo" required>
+                  <option value="" disabled selected>Selecciona una opción</option>
+                  <option>Excavadora</option>
+                  <option>Bulldozer / Topadora</option>
+                  <option>Grúa / Pluma</option>
+                  <option>Compactadora</option>
+                  <option>Cargador frontal</option>
+                  <option>Perforadora</option>
+                  <option>Retroexcavadora</option>
+                  <option>Camión de acarreo</option>
+                  <option>Generador industrial</option>
+                  <option>Compresor</option>
+                  <option>Otro</option>
+                </select>
+              </div>
+            </div>
+            <div class="fgroup">
+              <label for="mensaje">Describe la situación de tu equipo *</label>
+              <textarea id="mensaje" name="Mensaje" placeholder="Marca, modelo, año, tipo de falla o servicio requerido..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-solid fsubmit">Enviar solicitud</button>
+            <p class="fnote">Respondemos en menos de 24 horas hábiles.</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <span class="footer-brand">REMSA</span>
+          <p class="footer-tag">Especialistas en maquinaria pesada para construcción y minería. Servicio técnico con estándares internacionales, desde el corazón de México.</p>
+          <span class="footer-rfc">RFC: TMO231228H92</span>
+        </div>
+        <div class="footer-col">
+          <h5>Servicios</h5>
+          <ul>
+            <li><a href="#servicios">Mantenimiento Integral</a></li>
+            <li><a href="#servicios">Reparación Hidráulica</a></li>
+            <li><a href="#servicios">Refacciones Originales</a></li>
+            <li><a href="#servicios">Diagnóstico Electrónico</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contacto</h5>
+          <ul>
+            <li><a href="tel:7718428884">771 842 8884</a></li>
+            <li><a href="tel:7712388481">771 238 8481</a></li>
+            <li><a href="mailto:gpo_remsa@hotmail.com">gpo_remsa@hotmail.com</a></li>
+            <li><span style="color:var(--gray-dim);font-size:0.85rem;">L–V 9:00–17:30 · Sáb 9:00–14:00</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 REMSA — Todos los derechos reservados.</p>
+        <p>Veracruz · Hidalgo · México</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="btt" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <!-- ============================================================
+       JS
+  ============================================================ -->
+  <script>
+    // Brand logos — build marquee track (duplicated for seamless loop)
+    const brands = [
+      ['caterpillar.jpg', 'Caterpillar'],
+      ['komatsu.png', 'Komatsu'],
+      ['case.png', 'Case'],
+      ['terex.png', 'Terex'],
+      ['sandvik.png', 'Sandvik'],
+      ['jcb.png', 'JCB'],
+      ['liebherr.png', 'Liebherr'],
+      ['atlas_copco.png', 'Atlas Copco'],
+      ['dynapac.png', 'Dynapac'],
+      ['ingersoll_rand.png', 'Ingersoll-Rand'],
+    ];
+    const track = document.getElementById('logoTrack');
+    const buildLogos = () => brands.map(([file, name]) => `
+      <div class="logo-item">
+        <img src="assets/img/icons/${file}" alt="${name}" onerror="this.closest('.logo-item').classList.add('err')">
+        <span class="lbl">${name}</span>
+      </div>
+    `).join('');
+    track.innerHTML = buildLogos() + buildLogos();
+
+    // Nav solid on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('solid', window.scrollY > 40);
+    });
+
+    // Mobile menu
+    const hbtn = document.getElementById('hbtn');
+    const mmenu = document.getElementById('mmenu');
+    const mclose = document.getElementById('mclose');
+    const mbackdrop = document.getElementById('mbackdrop');
+    const openMenu = () => { mmenu.classList.add('open'); mbackdrop.classList.add('open'); };
+    const closeMenu = () => { mmenu.classList.remove('open'); mbackdrop.classList.remove('open'); };
+    hbtn.addEventListener('click', openMenu);
+    mclose.addEventListener('click', closeMenu);
+    mbackdrop.addEventListener('click', closeMenu);
+    document.querySelectorAll('.mlink').forEach(l => l.addEventListener('click', closeMenu));
+
+    // Reveal on scroll
+    const rvObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); rvObserver.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.rv').forEach(el => rvObserver.observe(el));
+
+    // Animated counters
+    const counters = document.querySelectorAll('[data-count]');
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const duration = 1100;
+        const start = performance.now();
+        const step = (now) => {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased);
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+        countObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => countObserver.observe(c));
+
+    // Back to top
+    const btt = document.getElementById('btt');
+    window.addEventListener('scroll', () => {
+      btt.classList.toggle('visible', window.scrollY > 500);
+    });
+  </script>
+
+</body>
+</html>

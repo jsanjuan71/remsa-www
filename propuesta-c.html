@@ -379,6 +379,91 @@
   .diff-row p .hl { color: var(--yellow); font-weight: 600; }
 
   /* ============================================================
+     GALERÍA — CINEMATIC FILMSTRIP
+  ============================================================ */
+  #galeria { background: var(--ink-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
+  .gal-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; margin-bottom: 3rem; }
+
+  .film-wrap { position: relative; }
+  .film-track {
+    display: flex; align-items: center; gap: 1.1rem; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 0 1.75rem 1.5rem; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; cursor: grab; user-select: none;
+  }
+  .film-track::-webkit-scrollbar { display: none; }
+  .film-track.grabbing { cursor: grabbing; scroll-snap-type: none; }
+
+  .film-item {
+    position: relative; flex: 0 0 auto; height: min(60vh, 540px); border-radius: 18px; overflow: hidden;
+    scroll-snap-align: center; background: var(--ink-3); border: 1px solid var(--line);
+  }
+  .film-item.w-s { width: min(58vw, 300px); }
+  .film-item.w-m { width: min(74vw, 420px); }
+  .film-item.w-l { width: min(90vw, 580px); }
+
+  .film-item img, .film-item video {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;
+    filter: grayscale(85%) brightness(.72) contrast(1.02);
+    transition: filter .5s ease;
+  }
+  .film-item.active img, .film-item.active video,
+  .film-item:hover img, .film-item:hover video {
+    filter: grayscale(0%) brightness(1) contrast(1);
+  }
+
+  /* Videos: simple settle zoom-out (motion already comes from the footage) */
+  .film-item.is-video video {
+    transform: scale(1.18);
+    transition: filter .5s ease, transform .9s ease;
+  }
+  .film-item.is-video.active video, .film-item.is-video:hover video {
+    transform: scale(1);
+  }
+
+  /* Photos: same Ken Burns drift as hero/footer, runs while active (mobile) or hovered (desktop) */
+  @keyframes filmKenBurns {
+    0%   { transform: scale(1.15) translate(0, 0); }
+    100% { transform: scale(1.32) translate(-4%, -3%); }
+  }
+  .film-item:not(.is-video) img {
+    animation: filmKenBurns 8s ease-in-out infinite alternate;
+    animation-play-state: paused;
+  }
+  .film-item:not(.is-video):hover img, .film-item:not(.is-video).kb-touch img {
+    animation-play-state: running;
+  }
+
+  .film-item.is-video { cursor: pointer; }
+  .film-item.is-video::before {
+    content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(0,0,0,.18); pointer-events: none;
+  }
+  .film-type-badge {
+    position: absolute; top: .9rem; left: .9rem; z-index: 2;
+    width: 30px; height: 30px; border-radius: 50%; background: rgba(10,10,11,.55); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; color: var(--white); pointer-events: none;
+  }
+  .film-type-badge svg { width: 13px; height: 13px; }
+  .film-type-badge.badge-video svg { margin-left: 2px; }
+
+  .film-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+    width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line);
+    background: rgba(10,10,11,.7); backdrop-filter: blur(6px); color: var(--white);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s;
+  }
+  .film-nav:hover { background: var(--yellow); color: var(--ink); border-color: var(--yellow); }
+  .film-prev { left: .5rem; }
+  .film-next { right: .5rem; }
+  .film-nav svg { width: 20px; height: 20px; }
+
+  .gal-hint { margin-top: 1.2rem; font-size: .76rem; color: var(--gray-dim); letter-spacing: .04em; }
+
+  @media (max-width: 620px) {
+    .film-nav { display: none; }
+  }
+
+  /* ============================================================
      CTA BANNER
   ============================================================ */
   #cta {
@@ -547,6 +632,7 @@
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#proceso">Proceso</a></li>
         <li><a href="#porque">Por qué REMSA</a></li>
+        <li><a href="#galeria">Galería</a></li>
         <li><a href="#contacto" class="nav-cta">Solicitar servicio</a></li>
       </ul>
       <button class="hamburger" id="hbtn" aria-label="Abrir menú">
@@ -561,6 +647,7 @@
     <a href="#servicios" class="mlink">Servicios</a>
     <a href="#proceso" class="mlink">Proceso</a>
     <a href="#porque" class="mlink">Por qué REMSA</a>
+    <a href="#galeria" class="mlink">Galería</a>
     <a href="#contacto" class="mlink nav-cta">Solicitar servicio</a>
   </div>
 
@@ -778,6 +865,36 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       GALERÍA — CINEMATIC FILMSTRIP
+       Material real de REMSA en assets/img/gallery/ (foto-01..53, video-01..03).
+       El track se llena en JS con 10 items aleatorios en cada carga.
+  ============================================================ -->
+  <section id="galeria">
+    <div class="container-wide gal-head rv">
+      <div>
+        <span class="eyebrow">Trabajo real</span>
+        <h2 class="h2">Así se ve el <em>cero paro</em></h2>
+        <p class="lede" style="margin-top:.8rem;">Fotos y video directo de campo y taller — sin poses, sin filtros.</p>
+      </div>
+    </div>
+
+    <div class="film-wrap rv rv-d1">
+      <button class="film-nav film-prev" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+
+      <div class="film-track" id="filmTrack"></div>
+
+      <button class="film-nav film-next" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="container-wide">
+      <p class="gal-hint">Desliza para ver más →</p>
     </div>
   </section>
 
@@ -1011,6 +1128,109 @@
       });
     }, { threshold: 0.5 });
     counters.forEach(c => countObserver.observe(c));
+
+    // Galería — filmstrip (10 items aleatorios de assets/img/gallery en cada carga)
+    const filmTrack = document.getElementById('filmTrack');
+
+    const GALLERY_PHOTOS = Array.from({ length: 53 }, (_, i) => `foto-${String(i + 1).padStart(2, '0')}.jpeg`);
+    const GALLERY_VIDEOS = Array.from({ length: 4 }, (_, i) => `video-${String(i + 1).padStart(2, '0')}.mp4`);
+    const GALLERY_ITEMS = [
+      ...GALLERY_PHOTOS.map(file => ({ type: 'image', file })),
+      ...GALLERY_VIDEOS.map(file => ({ type: 'video', file })),
+    ];
+    const WIDTHS = ['w-s', 'w-m', 'w-l'];
+
+    const shuffle = (arr) => {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    const GALLERY_SIZE = 12;
+    const shuffledVideos = shuffle(GALLERY_ITEMS.filter(i => i.type === 'video'));
+    const shuffledPhotos = shuffle(GALLERY_ITEMS.filter(i => i.type === 'image'));
+    const guaranteedVideo = shuffledVideos.slice(0, 1);
+    const rest = shuffle([...shuffledVideos.slice(1), ...shuffledPhotos]).slice(0, GALLERY_SIZE - guaranteedVideo.length);
+    const selected = shuffle([...guaranteedVideo, ...rest]);
+    filmTrack.innerHTML = selected.map((item, i) => {
+      const width = WIDTHS[i % WIDTHS.length];
+      const src = `https://remsamaquinaria.mx/assets/img/gallery/${item.file}`;
+      if (item.type === 'video') {
+        return `
+          <div class="film-item ${width} is-video">
+            <video src="${src}" muted loop playsinline preload="metadata"></video>
+            <span class="film-type-badge badge-video"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21"/></svg></span>
+          </div>`;
+      }
+      return `
+          <div class="film-item ${width}">
+            <img src="${src}" alt="Trabajo de campo REMSA" loading="lazy">
+            <span class="film-type-badge badge-image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span>
+          </div>`;
+    }).join('');
+
+    const filmItems = filmTrack.querySelectorAll('.film-item');
+
+    const updateFilmVideo = (item) => {
+      const vid = item.querySelector('video');
+      if (!vid) return;
+      if (item.dataset.active === 'true' || item.dataset.hover === 'true') vid.play().catch(() => {});
+      else vid.pause();
+    };
+
+    const filmObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        entry.target.classList.toggle('active', entry.isIntersecting);
+        entry.target.dataset.active = entry.isIntersecting ? 'true' : 'false';
+        updateFilmVideo(entry.target);
+      });
+    }, { root: filmTrack, threshold: 0.6 });
+    filmItems.forEach(item => filmObserver.observe(item));
+
+    filmItems.forEach(item => {
+      const vid = item.querySelector('video');
+      if (!vid) return;
+      item.addEventListener('mouseenter', () => { item.dataset.hover = 'true'; updateFilmVideo(item); });
+      item.addEventListener('mouseleave', () => { item.dataset.hover = 'false'; updateFilmVideo(item); });
+      item.addEventListener('click', () => {
+        vid.muted = !vid.muted;
+        vid.controls = !vid.muted;
+        item.classList.toggle('sound-on', !vid.muted);
+      });
+    });
+
+    // Ken Burns on tap for photo tiles (touch devices, since :hover doesn't reliably fire on tap)
+    filmItems.forEach(item => {
+      if (item.classList.contains('is-video')) return;
+      item.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'touch') return;
+        const wasOn = item.classList.contains('kb-touch');
+        filmItems.forEach(i => i.classList.remove('kb-touch'));
+        if (!wasOn) item.classList.add('kb-touch');
+      });
+    });
+
+    document.querySelector('.film-prev').addEventListener('click', () => filmTrack.scrollBy({ left: -420, behavior: 'smooth' }));
+    document.querySelector('.film-next').addEventListener('click', () => filmTrack.scrollBy({ left: 420, behavior: 'smooth' }));
+
+    // Drag to scroll (mouse)
+    let filmDown = false, filmStartX = 0, filmStartScroll = 0, filmMoved = false;
+    filmTrack.addEventListener('pointerdown', (e) => {
+      filmDown = true; filmMoved = false;
+      filmTrack.classList.add('grabbing');
+      filmStartX = e.pageX; filmStartScroll = filmTrack.scrollLeft;
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!filmDown) return;
+      const dx = e.pageX - filmStartX;
+      if (Math.abs(dx) > 6) filmMoved = true;
+      filmTrack.scrollLeft = filmStartScroll - dx;
+    });
+    window.addEventListener('pointerup', () => { filmDown = false; filmTrack.classList.remove('grabbing'); });
+    filmTrack.addEventListener('click', (e) => { if (filmMoved) { e.stopPropagation(); e.preventDefault(); } }, true);
 
     // Back to top
     const btt = document.getElementById('btt');
